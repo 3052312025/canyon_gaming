@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.canyon_gaming.mapper.AnchorMapper">
+
+    <update id="update">
+        update anchor set phone = #{phone} , email = #{email} , password = #{password} where id = #{id}
+    </update>
+    <select id="getName" resultType="com.example.canyon_gaming.entity.Anchor">
+        select * from anchor where id !=#{id} and username = #{username}
+    </select>
+    <select id="getPhone" resultType="com.example.canyon_gaming.entity.Anchor">
+        select * from anchor where id !=#{id} and username = #{username}
+    </select>
+    <select id="getEmail" resultType="com.example.canyon_gaming.entity.Anchor">
+        select * from anchor where id !=#{id} and username = #{username}
+    </select>
+
+</mapper>

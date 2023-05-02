@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.canyon_gaming.mapper.UserMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, phone, username, password, email, avatar_url, virtual_currency, level
+    </sql>
+    <update id="update">
+        update user set phone = #{phone} , email = #{email} , password = #{password} where username = #{username}
+    </update>
+
+    <select id="getUsersByLevel" parameterType="integer" resultType="com.example.canyon_gaming.entity.User">
+        select * from user where level =#{level}
+    </select>
+    <select id="getName" resultType="com.example.canyon_gaming.entity.User">
+        select * from user where id !=#{id} and username = #{username}
+    </select>
+    <select id="getPhone" resultType="com.example.canyon_gaming.entity.User">
+        select * from user where id !=#{id} and phone = #{phone}
+    </select>
+    <select id="getEmail" resultType="com.example.canyon_gaming.entity.User">
+        select * from user where id !=#{id} and email = #{email}
+    </select>
+
+</mapper>

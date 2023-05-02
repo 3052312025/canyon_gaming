@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.canyon_gaming.mapper.AnchorMapper">
+
+    <update id="update">
+        update anchor set phone = #{phone} , email = #{email} , password = #{password} where id = #{id}
+    </update>
+    <select id="getName" resultType="com.example.canyon_gaming.entity.Anchor">
+        select * from anchor where id !=#{id} and username = #{username}
+    </select>
+    <select id="getPhone" resultType="com.example.canyon_gaming.entity.Anchor">
+        select * from anchor where id !=#{id} and username = #{username}
+    </select>
+    <select id="getEmail" resultType="com.example.canyon_gaming.entity.Anchor">
+        select * from anchor where id !=#{id} and username = #{username}
+    </select>
+    <select id="getByUid" resultType="com.example.canyon_gaming.entity.Anchor"
+            parameterType="java.lang.Integer">
+        select * from anchor where uid = #{uid}
+    </select>
+    <select id="getSixPopularity">
+        select popularity from anchor order by popularity desc limit 0,6
+    </select>
+    <select id="getSixFans">
+        select fans from anchor order by popularity desc limit 0,6
+    </select>
+    <select id="getSixName">
+        select username from anchor order by popularity desc limit 0,6
+    </select>
+
+</mapper>
