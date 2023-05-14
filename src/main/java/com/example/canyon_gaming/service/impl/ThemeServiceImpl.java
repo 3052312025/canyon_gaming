@@ -12,11 +12,12 @@ import com.example.canyon_gaming.service.impl.dto.ThemeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.spec.ECField;
 import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author author
@@ -31,35 +32,35 @@ public class ThemeServiceImpl extends ServiceImpl<ThemeMapper, Theme> implements
     //添加主题
     @Override
     public String addTheme(String theme) {
-        Theme t = new Theme();
-        if (theme==null) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "请输入主题!");
+        if (getOne(new QueryWrapper<Theme>().eq("theme", theme)) != null) {
+            throw new ServiceException(Constants.CODE_600.getCode(), "该主题已存在,勿重复添加!");
+        } else {
+            Theme theme1 = new Theme();
+            theme1.setTheme(theme);
+            if (save(theme1)) {
+                return "添加成功";
+            } else {
+                throw new ServiceException(Constants.CODE_600.getCode(), "添加失败");
+            }
         }
-        if(theme.equals(getOne(new QueryWrapper<Theme>().eq("theme",theme)))){
-            throw new ServiceException(Constants.CODE_600.getCode(), "该主题已存在，请重新输入!");
-        }
-        t.setTheme(theme);
-        themeMapper.insert(t);
-        return "添加成功";
+
     }
 
     //删除主题
     @Override
-    public String deleteTheme(Theme theme) {
-        themeMapper.deleteById(theme.getId());
-        return "删除成功";
+    public String deleteTheme(Integer themeId) {
+        if (themeMapper.deleteById(themeId) == 1) {
+            return "删除成功";
+        } else {
+            throw new ServiceException(Constants.CODE_600.getCode(), "删除失败");
+        }
     }
 
     //展示主题
     @Override
-    public ThemeDto[] showTheme() {
-        List<Theme> theme = themeMapper.showTheme();
-        ThemeDto[] themeDtos = new ThemeDto[theme.size()];
-        for(int i=0;i<theme.size();i++){
-            themeDtos[i].setName(theme.get(i).getTheme());
-            themeDtos[i].setValue(theme.get(i).getTouch());
-        }
-        return themeDtos;
+    public List<Theme> showTheme() {
+        List<Theme> theme = themeMapper.selectList(null);
+        return theme;
     }
 
 }

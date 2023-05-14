@@ -14,5 +14,18 @@
     <select id="getEmail" resultType="com.example.canyon_gaming.entity.Anchor">
         select * from anchor where id !=#{id} and username = #{username}
     </select>
+    <select id="getByUid" resultType="com.example.canyon_gaming.entity.Anchor"
+            parameterType="java.lang.Integer">
+        select * from anchor where uid = #{uid}
+    </select>
+    <select id="getSixPopularity">
+        select popularity from anchor order by popularity desc limit 0,6
+    </select>
+    <select id="getSixFans">
+        select fans from anchor order by popularity desc limit 0,6
+    </select>
+    <select id="getSixName">
+        select username from anchor order by popularity desc limit 0,6
+    </select>
 
 </mapper>

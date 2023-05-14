@@ -3,17 +3,24 @@ package com.example.canyon_gaming.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author author
  * @since 2023-05-08
  */
 @TableName("theme")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Theme implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,6 +50,7 @@ public class Theme implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getTheme() {
         return theme;
     }
@@ -54,9 +62,9 @@ public class Theme implements Serializable {
     @Override
     public String toString() {
         return "Theme{" +
-            "id=" + id +
-            ", theme=" + theme +
+                "id=" + id +
+                ", theme=" + theme +
                 ", touch=" + touch +
-        "}";
+                "}";
     }
 }

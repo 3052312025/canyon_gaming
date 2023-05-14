@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author author
@@ -19,10 +19,10 @@ public interface IThemeService extends IService<Theme> {
     String addTheme(String theme);
 
     //删除主题
-    String deleteTheme(Theme theme);
+    String deleteTheme(Integer themeId);
 
     //显示主题
-    ThemeDto[] showTheme();
+    List<Theme> showTheme();
 
 
 }

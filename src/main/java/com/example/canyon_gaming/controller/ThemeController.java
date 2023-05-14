@@ -7,6 +7,7 @@ import com.example.canyon_gaming.service.IThemeService;
 import com.example.canyon_gaming.service.impl.dto.ThemeDto;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
@@ -16,35 +17,43 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author author
  * @since 2023-05-08
  */
-@Controller
+@RestController
 @RequestMapping("/theme")
 public class ThemeController {
-
     @Resource
     IThemeService themeService;
 
     //管理员添加主题
-    @GetMapping("/addTheme/{theme}")
-    public Result addTheme(@PathVariable String theme){
+    @GetMapping("/addTheme")
+    public Result addTheme(@RequestParam(value = "theme") String theme) {
         return Result.success(themeService.addTheme(theme));
     }
 
     //管理员删除主题
-    @PostMapping("/deleteTheme")
-    public Result deleteTheme(@RequestBody Theme theme){
-        return Result.success(themeService.deleteTheme(theme));
+    @GetMapping("/deleteTheme")
+    public Result deleteTheme(@RequestParam(value = "id") Integer themeId) {
+        return Result.success(themeService.deleteTheme(themeId));
     }
 
     //获取主题与热度
-    @PostMapping("/showTheme")
-    public ThemeDto[] showTheme(){
+    @GetMapping("/showTheme")
+    public List<Theme> showTheme() {
         return themeService.showTheme();
+    }
+
+    @GetMapping("/test")
+    public String test(@RequestParam Integer id) {
+        if (id == 1) {
+            return "sss";
+        } else {
+            return "sddfdsf";
+        }
     }
 
 }

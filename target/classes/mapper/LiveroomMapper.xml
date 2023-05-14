@@ -5,5 +5,9 @@
     <select id="selectAll" resultType="com.example.canyon_gaming.entity.Liveroom" >
         select * from liveroom
     </select>
+    <select id="getByRoomID" resultType="com.example.canyon_gaming.entity.Liveroom"
+            parameterType="java.lang.String">
+        select * from liveroom where roomid = #{roomid}
+    </select>
 
 </mapper>

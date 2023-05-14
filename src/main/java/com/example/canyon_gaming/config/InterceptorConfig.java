@@ -17,8 +17,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/user/login","/user/test","/user/register","/user/apply","/user/approve",
-                        "/theme/addTheme/*","/theme/deleteTheme","/theme/showTheme");
+                .excludePathPatterns("/user/login", "/user/test", "/user/register", "/user/apply", "/user/approve",
+                        "/theme/**");
     }
 
     @Override

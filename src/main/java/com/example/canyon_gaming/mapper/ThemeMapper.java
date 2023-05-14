@@ -17,6 +17,6 @@ import java.util.List;
 @Mapper
 public interface ThemeMapper extends BaseMapper<Theme> {
 
-    List<Theme> showTheme();
+
 
 }
