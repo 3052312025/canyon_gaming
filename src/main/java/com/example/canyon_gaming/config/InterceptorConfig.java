@@ -4,6 +4,7 @@ import com.example.canyon_gaming.Interceptor.JwtInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -20,9 +21,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
                         "/theme/addTheme/*","/theme/deleteTheme","/theme/showTheme");
     }
 
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/files/upload/**").addResourceLocations("file:/D:/。。。/EE/travelDemo/src/main/resources/static/images/");
-//    }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/files/upload/**").addResourceLocations("file:/D:/。。。/EE/travelDemo/src/main/resources/static/images/");
+    }
 
 }

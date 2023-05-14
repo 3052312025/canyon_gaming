@@ -1,6 +1,8 @@
 package com.example.canyon_gaming.service.impl.dto;
 
 import com.example.canyon_gaming.entity.Anchor;
+import lombok.Data;
+
 
 public class LiveroomDto {
     //用户名
