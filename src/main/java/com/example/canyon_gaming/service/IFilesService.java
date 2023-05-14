@@ -15,6 +15,7 @@ import java.io.IOException;
  * @since 2023-05-14
  */
 public interface IFilesService extends IService<Files> {
+    //文件下载方法
     Files upload(MultipartFile file) throws IOException;
 
 }
