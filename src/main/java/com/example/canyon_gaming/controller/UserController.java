@@ -36,9 +36,9 @@ public class UserController {
         return Result.success(userService.login(loginMap));
     }
     //注册访问
-    @GetMapping ("/register")
+    @PostMapping ("/register")
     public Result register(@RequestBody User registerUser) {
-         return Result.success(userService.register(registerUser));
+        return Result.success(userService.register(registerUser));
     }
 
     //用户申请主播

@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.canyon_gaming.mapper.FilesMapper">
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, filename, fileurl
-    </sql>
+    <resultMap id="BaseResultMap" type="com.example.canyon_gaming.entity.Files">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="fileurl" column="fileurl" jdbcType="VARCHAR"/>
+            <result property="md5" column="md5" jdbcType="VARCHAR"/>
+    </resultMap>
 
+    <sql id="Base_Column_List">
+        id,fileurl,md5
+    </sql>
 </mapper>

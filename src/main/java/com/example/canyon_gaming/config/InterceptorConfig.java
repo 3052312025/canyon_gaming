@@ -18,12 +18,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/user/login", "/user/test", "/user/register", "/user/apply", "/user/approve",
-                        "/theme/**");
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/files/upload/**").addResourceLocations("file:/D:/。。。/EE/travelDemo/src/main/resources/static/images/");
+                        "/theme/**","/files/**");
     }
 
 }
