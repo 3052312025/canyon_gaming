@@ -2,6 +2,8 @@ package com.example.canyon_gaming.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.injector.methods.DeleteById;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.canyon_gaming.common.Constants;
 import com.example.canyon_gaming.common.Result;
@@ -112,12 +114,74 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return "注册成功!";
     }
 
+
+    // 根据用户id删除用户
+    @Override
+    public String deleteById(Integer id) {
+        if (!removeById(id)) {
+            throw new ServiceException(Constants.CODE_600.getCode(), "操作失败");
+        }
+        return "删除成功";
+    }
+
+    //用户修改个人信息
+    @Override
+    public String modify(User user) {
+        User user1 = getById(user.getId());
+        if (user1 == null) {
+            throw new ServiceException(Constants.CODE_600.getCode(), "操作失败");
+        }
+        //用户名正则，3到16位（字母，数字，下划线，减号）
+        Pattern pUsername = Pattern.compile("^[a-zA-Z0-9_-]{3,16}$");
+        Matcher pu = pUsername.matcher(user.getUsername());
+        //匹配密码格式,4-16位且不能含有中文
+        Pattern pPassword = Pattern.compile("^[^\\u4e00-\\u9fa5]{3,16}$");
+        Matcher pp = pPassword.matcher(user.getPassword());
+        //匹配邮箱的格式
+        Pattern pEmail = Pattern.compile("^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$");
+        Matcher me = pEmail.matcher(user.getEmail());
+        if (!pu.matches()) {
+            throw new ServiceException(Constants.CODE_600.getCode(), "用户名格式有误，请输入3-16位(可以是字母，数字，下划线，减号)的有效字符!");
+        }
+        if (!pp.matches()) {
+            throw new ServiceException(Constants.CODE_600.getCode(), "密码格式有误,请输入4-16位且不能含有中文的有效字符!");
+        }
+        if (!me.matches()) {
+            throw new ServiceException(Constants.CODE_600.getCode(), "请输入正确的邮箱!");
+        }
+        User useN = getOne(new QueryWrapper<User>().eq("username", user.getUsername()));
+        User useE = getOne(new QueryWrapper<User>().eq("email", user.getEmail()));
+        if (useN != null && !useN.getUsername().equals(user1.getUsername())) {
+            throw new ServiceException(Constants.CODE_600.getCode(), "用户名已存在");
+        } else if (useE != null && !useE.getEmail().equals(user1.getEmail())) {
+            throw new ServiceException(Constants.CODE_600.getCode(), "邮箱已存在");
+        }
+        updateById(user);
+        return "修改成功";
+    }
+
+    //分页展示用户列表
+    @Override
+    public IPage<User> selectByPage(Integer currentPage, Integer pageSize) {
+        QueryWrapper<User> pageWrapper = new QueryWrapper<>();
+        //大于1的用户，默认1是管理员
+        pageWrapper.gt("id", 1);
+        //按照uid升序
+        pageWrapper.orderByAsc("id");
+
+        pageWrapper.select(User.class, userPage -> !userPage.getColumn().equals("password"));
+        //第一个参数为查询第几页,第二个参数为每页多少条记录
+        Page<User> page = new Page<>(currentPage, pageSize);
+        IPage<User> userIPage = userMapper.selectPage(page, pageWrapper);
+        return userIPage;
+    }
+
     //用户申请主播功能实现
     @Override
     public String apply(User applyUser) {
         String username = applyUser.getUsername();
         User user = getOne(new QueryWrapper<User>().eq("username", username));
-        if(user.getLevel()==3){
+        if (user.getLevel() == 3) {
             throw new ServiceException(Constants.CODE_600.getCode(), "您已提交申请，请耐心等待管理员审核！");
         }
 //******************************
@@ -151,11 +215,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         Random r = new Random();
         int i = r.nextInt(100000);
         List<Liveroom> list = liveroomMapper.selectAll();
-        while (i<10000){
+        while (i < 10000) {
             i = r.nextInt(100000);
             //遍历RoomID防止相同
-            for(int j=0;j<list.size();j++){
-                if(list.get(j).getRoomid().equals(String.valueOf(i))){
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j).getRoomid().equals(String.valueOf(i))) {
                     i = 0;
                 }
             }
@@ -197,49 +261,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 //******************************
 
         return "已拒绝申请";
-    }
-
-    //用户修改个人信息
-    @Override
-    public String modify(User user){
-
-        Pattern pUsername = Pattern.compile("^[a-zA-Z0-9_-]{3,16}$");
-        Matcher pu = pUsername.matcher(user.getUsername());
-        //匹配密码格式,4-16位且不能含有中文
-        Pattern pPassword = Pattern.compile("^[^\\u4e00-\\u9fa5]{3,16}$");
-
-        Matcher pp = pPassword.matcher(user.getPassword());
-        //匹配电话号码的格式
-        Pattern pPhone = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
-        Matcher mp = pPhone.matcher(user.getPhone());
-        //匹配邮箱的格式
-        Pattern pEmail = Pattern.compile("^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$");
-        Matcher me = pEmail.matcher(user.getEmail());
-        if (!pu.matches()) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "用户名格式有误，请输入3-16位(可以是字母，数字，下划线，减号)的有效字符!");
-        }
-        if (!pp.matches()) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "密码格式有误,请输入4-16位且不能含有中文的有效字符!");
-        }
-        if (!mp.matches()) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "请输入正确的电话号码!");
-        }
-        if (!me.matches()) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "请输入正确的邮箱!");
-        }
-        //根据传入的参数,从数据库中查询一条记录
-        User useN = userMapper.getName(user.getId(),user.getUsername());
-        User useP = userMapper.getPhone(user.getId(),user.getPhone());
-        User useE = userMapper.getEmail(user.getId(),user.getEmail());
-        if (useN != null) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "该用户名已存在,请重新输入");
-        } else if (useP != null) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "该电话号码已存在,请重新输入");
-        } else if (useE != null) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "该邮箱已存在,请重新输入");
-        }
-        updateById(user);
-        return "修改成功";
     }
 
 
