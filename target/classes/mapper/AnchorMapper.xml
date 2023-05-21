@@ -27,5 +27,9 @@
     <select id="getSixName">
         select username from anchor order by popularity desc limit 0,6
     </select>
+    <select id="getByRoomId" resultType="com.example.canyon_gaming.entity.Anchor"
+            parameterType="java.lang.String">
+        select * from anchor where room_id = #{room_id}
+    </select>
 
 </mapper>

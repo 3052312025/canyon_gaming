@@ -17,6 +17,20 @@ public class LiveroomDto {
     private String theme;
     //直播间名称
     private String roomname;
+    //直播间状态
+    private String state;
+    //直播间图片
+    private String imgurl;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+
 
     public LiveroomDto(String username, Integer fans, Integer popularity, Integer degreeofeat, String theme, String roomname) {
         this.username = username;
@@ -25,6 +39,17 @@ public class LiveroomDto {
         this.degreeofeat = degreeofeat;
         this.theme = theme;
         this.roomname = roomname;
+    }
+
+    public LiveroomDto(String username, Integer fans, Integer popularity, Integer degreeofeat, String theme, String roomname,String state,String imgurl) {
+        this.username = username;
+        this.fans = fans;
+        this.popularity = popularity;
+        this.degreeofeat = degreeofeat;
+        this.theme = theme;
+        this.roomname = roomname;
+        this.state=state;
+        this.imgurl=imgurl;
     }
 
     public String getUsername() {

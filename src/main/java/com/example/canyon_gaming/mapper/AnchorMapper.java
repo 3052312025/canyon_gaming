@@ -26,5 +26,5 @@ public interface AnchorMapper extends BaseMapper<Anchor> {
     int[] getSixPopularity();
     int[] getSixFans();
     String[] getSixName();
-
+    Anchor getByRoomId(@Param("room_id") String room_id);
 }

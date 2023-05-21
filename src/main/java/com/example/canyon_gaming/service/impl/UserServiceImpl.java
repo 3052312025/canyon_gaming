@@ -184,11 +184,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (user.getLevel() == 3) {
             throw new ServiceException(Constants.CODE_600.getCode(), "您已提交申请，请耐心等待管理员审核！");
         }
-//******************************
-
-        //加入申请表
-
-//******************************
         user.setLevel(3);
         updateById(user);
         return "提交成功";
@@ -224,11 +219,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 }
             }
         }
-//******************************
-
-        //先获取主题数据再删除申请表
-
-//******************************
         Liveroom liveroom = new Liveroom();
         liveroom.setRoomid(String.valueOf(i));
         liveroom.setDegreeofeat(0);
@@ -253,13 +243,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public String refuse(User applyUser) {
         applyUser.setLevel(1);
         updateById(applyUser);
-
-//******************************
-
-        //删除申请表
-
-//******************************
-
         return "已拒绝申请";
     }
 
