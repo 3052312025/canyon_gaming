@@ -49,4 +49,9 @@ public class LiveroomController {
         return Result.success(liveroomService.show(Page,pageSize,theme));
     }
 
+    @GetMapping("/getOld")
+    public Result getOld(Integer uid){
+        return Result.success(liveroomService.getOld(uid));
+    }
+
 }
