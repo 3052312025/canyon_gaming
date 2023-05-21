@@ -153,7 +153,7 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
     ThemeMapper themeMapper;
     //原先信息返回
     @Override
-    public List<OpenLiveDto> getOld(Integer uid) {
+    public OpenLiveDto getOld(Integer uid) {
         //获取主播对象
         Anchor anchor = anchorMapper.getByUid(uid);
         //获取直播间对象
@@ -161,6 +161,6 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
         //获取主题
         List<Theme> themes = themeMapper.selectList(null);
         OpenLiveDto openLiveDto = new OpenLiveDto(themes,liveroom.getImaurl(),liveroom.getRoomname());
-        return null;
+        return openLiveDto;
     }
 }
