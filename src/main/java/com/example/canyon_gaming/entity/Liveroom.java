@@ -43,6 +43,17 @@ public class Liveroom implements Serializable {
     //直播间名称
     private String roomname;
 
+    public String getImaurl() {
+        return imaurl;
+    }
+
+    public void setImaurl(String imaurl) {
+        this.imaurl = imaurl;
+    }
+
+    //直播间图片
+    private String imaurl;
+
     public String getId() {
         return id;
     }
