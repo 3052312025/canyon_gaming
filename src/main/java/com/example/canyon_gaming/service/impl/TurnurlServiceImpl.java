@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -34,5 +35,10 @@ public class TurnurlServiceImpl extends ServiceImpl<TurnurlMapper, Turnurl> impl
     public String delete(Integer id) {
         turnurlMapper.deleteById(id);
         return "删除成功";
+    }
+
+    @Override
+    public List<Turnurl> show() {
+        return turnurlMapper.selectList(null);
     }
 }

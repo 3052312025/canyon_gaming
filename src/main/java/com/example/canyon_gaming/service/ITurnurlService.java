@@ -3,6 +3,8 @@ package com.example.canyon_gaming.service;
 import com.example.canyon_gaming.entity.Turnurl;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -17,4 +19,7 @@ public interface ITurnurlService extends IService<Turnurl> {
     String add(String url);
     //删除
     String delete(Integer id);
+
+    //展示
+    List<Turnurl> show();
 }

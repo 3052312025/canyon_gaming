@@ -38,4 +38,10 @@ public class TurnurlController {
         return Result.success(turnurlService.delete(id));
     }
 
+    //展示
+    @GetMapping("/show")
+    public Result show(){
+        return Result.success(turnurlService.show());
+    }
+
 }
