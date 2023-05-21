@@ -5,15 +5,19 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.canyon_gaming.common.Constants;
 import com.example.canyon_gaming.entity.Anchor;
 import com.example.canyon_gaming.entity.Liveroom;
+import com.example.canyon_gaming.entity.Theme;
 import com.example.canyon_gaming.exception.ServiceException;
 import com.example.canyon_gaming.mapper.AnchorMapper;
 import com.example.canyon_gaming.mapper.LiveroomMapper;
+import com.example.canyon_gaming.mapper.ThemeMapper;
 import com.example.canyon_gaming.service.ILiveroomService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.canyon_gaming.service.impl.dto.LiveroomDto;
+import com.example.canyon_gaming.service.impl.dto.OpenLiveDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,6 +132,7 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
         return getList(Page,pageSize,liveroomDtos);
     }
 
+
     //分页方法
     List<LiveroomDto> getList(Integer Page,Integer pageSize,List<LiveroomDto> list){
         List<LiveroomDto> liveroomDtos = new ArrayList<>();
@@ -142,5 +147,20 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
             liveroomDtos.add(list.get(i));
         }
         return liveroomDtos;
+    }
+
+    @Resource
+    ThemeMapper themeMapper;
+    //原先信息返回
+    @Override
+    public List<OpenLiveDto> getOld(Integer uid) {
+        //获取主播对象
+        Anchor anchor = anchorMapper.getByUid(uid);
+        //获取直播间对象
+        Liveroom liveroom = liveroomMapper.getByRoomID(anchor.getRoomId());
+        //获取主题
+        List<Theme> themes = themeMapper.selectList(null);
+        OpenLiveDto openLiveDto = new OpenLiveDto(themes,liveroom.getImaurl(),liveroom.getRoomname());
+        return null;
     }
 }

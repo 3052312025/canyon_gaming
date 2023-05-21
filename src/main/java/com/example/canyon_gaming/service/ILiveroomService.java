@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.canyon_gaming.entity.Liveroom;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.canyon_gaming.service.impl.dto.LiveroomDto;
+import com.example.canyon_gaming.service.impl.dto.OpenLiveDto;
 
 import java.util.List;
 
@@ -28,5 +29,8 @@ public interface ILiveroomService extends IService<Liveroom> {
 
     //主页显示直播间
     List<LiveroomDto> show(Integer Page, Integer pageSize, String theme);
+
+    //显示原来的信息
+    List<OpenLiveDto> getOld(Integer uid);
 
 }
