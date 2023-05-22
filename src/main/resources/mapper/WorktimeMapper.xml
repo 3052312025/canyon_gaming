@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.canyon_gaming.mapper.WorktimeMapper">
+
+    <select id="selectByAid" resultType="com.example.canyon_gaming.entity.Worktime"
+            parameterType="java.lang.Integer">
+        select * from worktime where aid = #{aid} order by start_time desc
+    </select>
+    <select id="selectAll" resultType="com.example.canyon_gaming.entity.Worktime">
+        select * from worktime order by start_time desc
+    </select>
+    <select id="selectByState" resultType="com.example.canyon_gaming.entity.Worktime"
+            parameterType="java.lang.Integer">
+        select * from worktime where state = #{state}
+    </select>
+
+</mapper>
