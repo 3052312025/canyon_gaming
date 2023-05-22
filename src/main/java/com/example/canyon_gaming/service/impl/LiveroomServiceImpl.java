@@ -53,7 +53,7 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
         liveroom.setRoomname(roomname);
         liveroom.setDegreeofeat(100);
         if(imgurl!=null){
-            liveroom.setImaurl(imgurl);
+            liveroom.setImgurl(imgurl);
         }
         liveroomMapper.updateById(liveroom);
 
@@ -112,21 +112,24 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
         List<LiveroomDto> liveroomDtos = new ArrayList<>();
         //获取全部主播
         List<Anchor> anchors = anchorMapper.selectList(null);
+        //获取总页数
+
 
         for(int i = 0;i<anchors.size();i++){
             //获取主播
             Anchor anchor = anchors.get(i);
             //获取主播对应的直播间
             Liveroom liveroom = liveroomMapper.getByRoomID(anchor.getRoomId());
+            System.out.println(liveroom.getImgurl());
             //封装数据
             String state = "主播暂未开播";
             if(liveroom.getDegreeofeat()!=0){
                 state = "直播中";
             }
             if(theme.equals("全部")){
-                liveroomDtos.add(new LiveroomDto(anchor.getUsername(),anchor.getFans(),anchor.getPopularity(),liveroom.getDegreeofeat(),liveroom.getTheme(),liveroom.getRoomname(),state,liveroom.getImaurl()));
+                liveroomDtos.add(new LiveroomDto(anchor.getUsername(),anchor.getFans(),anchor.getPopularity(),liveroom.getDegreeofeat(),liveroom.getTheme(),liveroom.getRoomname(),state,liveroom.getImgurl()));
             }else if(liveroom.getTheme().equals(theme)){
-                liveroomDtos.add(new LiveroomDto(anchor.getUsername(),anchor.getFans(),anchor.getPopularity(),liveroom.getDegreeofeat(),liveroom.getTheme(),liveroom.getRoomname(),state,liveroom.getImaurl()));
+                liveroomDtos.add(new LiveroomDto(anchor.getUsername(),anchor.getFans(),anchor.getPopularity(),liveroom.getDegreeofeat(),liveroom.getTheme(),liveroom.getRoomname(),state,liveroom.getImgurl()));
             }
         }
         return getList(Page,pageSize,liveroomDtos);
@@ -137,16 +140,29 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
     List<LiveroomDto> getList(Integer Page,Integer pageSize,List<LiveroomDto> list){
         List<LiveroomDto> liveroomDtos = new ArrayList<>();
         int x = (Page-1)*pageSize;
-        int z = Page*pageSize-1;
+        int z = Page*pageSize;
+        if(pageSize==0){
+            return null;
+        }
         if(z>list.size()){
             z=list.size();
         }else if (z==0){
             z=1;
         }
         for(int i= x;i<z;i++){
+            list.get(i).setPagenum(num(pageSize,list));
             liveroomDtos.add(list.get(i));
         }
         return liveroomDtos;
+    }
+
+    //计算总页数
+    int num(Integer pageSize,List<LiveroomDto> list){
+        int i=list.size()/pageSize;
+        if((i*pageSize)<list.size()){
+            i=i+1;
+        }
+        return i;
     }
 
     @Resource
@@ -160,7 +176,7 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
         Liveroom liveroom = liveroomMapper.getByRoomID(anchor.getRoomId());
         //获取主题
         List<Theme> themes = themeMapper.selectList(null);
-        OpenLiveDto openLiveDto = new OpenLiveDto(themes,liveroom.getImaurl(),liveroom.getRoomname());
+        OpenLiveDto openLiveDto = new OpenLiveDto(themes,liveroom.getImgurl(),liveroom.getRoomname());
         return openLiveDto;
     }
 }

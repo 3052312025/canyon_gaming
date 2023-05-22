@@ -21,14 +21,10 @@ public class LiveroomDto {
     private String state;
     //直播间图片
     private String imgurl;
+    //总页数
+    private int Pagenum;
 
-    public String getState() {
-        return state;
-    }
 
-    public void setState(String state) {
-        this.state = state;
-    }
 
 
 
@@ -98,5 +94,28 @@ public class LiveroomDto {
 
     public void setRoomname(String roomname) {
         this.roomname = roomname;
+    }
+    public String getImgurl() {
+        return imgurl;
+    }
+
+    public void setImgurl(String imgurl) {
+        this.imgurl = imgurl;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public int getPagenum() {
+        return Pagenum;
+    }
+
+    public void setPagenum(int pagenum) {
+        Pagenum = pagenum;
     }
 }
