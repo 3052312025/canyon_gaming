@@ -150,20 +150,12 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
             z=1;
         }
         for(int i= x;i<z;i++){
-            list.get(i).setPagenum(num(pageSize,list));
+            list.get(i).setPagenum(list.size());
             liveroomDtos.add(list.get(i));
         }
         return liveroomDtos;
     }
 
-    //计算总页数
-    int num(Integer pageSize,List<LiveroomDto> list){
-        int i=list.size()/pageSize;
-        if((i*pageSize)<list.size()){
-            i=i+1;
-        }
-        return i;
-    }
 
     @Resource
     ThemeMapper themeMapper;
