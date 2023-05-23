@@ -108,7 +108,7 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
 
     //首页展示
     @Override
-    public List<LiveroomDto> show(Integer Page, Integer pageSize, String theme) {
+    public List<LiveroomDto> show(Integer currentPage, Integer pageSize, String theme) {
         List<LiveroomDto> liveroomDtos = new ArrayList<>();
         //获取全部主播
         List<Anchor> anchors = anchorMapper.selectList(null);
@@ -132,15 +132,15 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
                 liveroomDtos.add(new LiveroomDto(anchor.getUsername(),anchor.getFans(),anchor.getPopularity(),liveroom.getDegreeofeat(),liveroom.getTheme(),liveroom.getRoomname(),state,liveroom.getImgurl()));
             }
         }
-        return getList(Page,pageSize,liveroomDtos);
+        return getList(currentPage,pageSize,liveroomDtos);
     }
 
 
     //分页方法
-    List<LiveroomDto> getList(Integer Page,Integer pageSize,List<LiveroomDto> list){
+    List<LiveroomDto> getList(Integer currentPage,Integer pageSize,List<LiveroomDto> list){
         List<LiveroomDto> liveroomDtos = new ArrayList<>();
-        int x = (Page-1)*pageSize;
-        int z = Page*pageSize;
+        int x = (currentPage-1)*pageSize;
+        int z = currentPage*pageSize;
         if(pageSize==0){
             return null;
         }
@@ -161,9 +161,9 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
     ThemeMapper themeMapper;
     //原先信息返回
     @Override
-    public OpenLiveDto getOld(Integer uid) {
+    public OpenLiveDto getOld(Integer id) {
         //获取主播对象
-        Anchor anchor = anchorMapper.getByUid(uid);
+        Anchor anchor = anchorMapper.getByUid(id);
         //获取直播间对象
         Liveroom liveroom = liveroomMapper.getByRoomID(anchor.getRoomId());
         //获取主题

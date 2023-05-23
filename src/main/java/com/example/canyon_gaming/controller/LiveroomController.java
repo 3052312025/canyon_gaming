@@ -47,13 +47,13 @@ public class LiveroomController {
 
     //直播间展示方法
     @GetMapping("/show")
-    public Result show(Integer Page ,Integer pageSize ,String theme){
-        return Result.success(liveroomService.show(Page,pageSize,theme));
+    public Result show(Integer currentPage ,Integer pageSize ,String theme){
+        return Result.success(liveroomService.show(currentPage,pageSize,theme));
     }
 
     @GetMapping("/getOld")
-    public Result getOld(Integer uid){
-        return Result.success(liveroomService.getOld(uid));
+    public Result getOld(Integer id){
+        return Result.success(liveroomService.getOld(id));
     }
 
 }

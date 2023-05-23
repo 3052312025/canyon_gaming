@@ -31,6 +31,6 @@ public interface ILiveroomService extends IService<Liveroom> {
     List<LiveroomDto> show(Integer Page, Integer pageSize, String theme);
 
     //显示原来的信息
-    OpenLiveDto getOld(Integer uid);
+    OpenLiveDto getOld(Integer id);
 
 }
