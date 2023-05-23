@@ -8,11 +8,11 @@ import java.util.List;
 public class OpenLiveDto {
     private List<Theme> themes;
     private String imgurl;
-    private String roomid;
+    private String roomname;
 
-    public OpenLiveDto(List<Theme> themes, String imgurl, String roomid) {
+    public OpenLiveDto(List<Theme> themes, String imgurl, String roomname) {
         this.themes = themes;
         this.imgurl = imgurl;
-        this.roomid = roomid;
+        this.roomname = roomname;
     }
 }
