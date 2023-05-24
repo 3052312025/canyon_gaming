@@ -6,7 +6,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     # \u914D\u7F6E\u8FDE\u63A5\u6570\u636E\u5E93\u7684\u5404\u4E2A\u4FE1\u606F
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3308/gamelive?useUnicode=true&useSSL=false&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/gamelive?useUnicode=true&useSSL=false&characterEncoding=utf8
     username: root
 #    password: 354172
     password: 123456
