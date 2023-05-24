@@ -173,6 +173,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         //第一个参数为查询第几页,第二个参数为每页多少条记录
         Page<User> page = new Page<>(currentPage, pageSize);
         IPage<User> userIPage = userMapper.selectPage(page, pageWrapper);
+        //sk
+        userIPage.setTotal(userIPage.getTotal());
         return userIPage;
     }
 
