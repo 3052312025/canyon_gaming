@@ -28,6 +28,8 @@ public class LiveroomDto {
     private int Pagenum;
     //房间号
     private String RoomId;
+    //直播间url
+    private String liveRoomUrl;
 
     public LiveroomDto(String username, Integer fans, Integer popularity, Integer degreeofeat, String theme, String roomname) {
         this.username = username;

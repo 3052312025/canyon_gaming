@@ -3,11 +3,8 @@ package com.example.canyon_gaming.controller;
 
 import com.example.canyon_gaming.common.Result;
 import com.example.canyon_gaming.service.ILiveroomService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -41,8 +38,8 @@ public class LiveroomController {
 
     //直播间点击方法
     @GetMapping("/touch")
-    public Result touch(String roomid){
-        return Result.success(liveroomService.touch(roomid));
+    public Result touch(String roomId){
+        return Result.success(liveroomService.touch(roomId));
     }
 
     //直播间展示方法
