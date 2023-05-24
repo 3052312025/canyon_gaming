@@ -26,6 +26,8 @@ public class LiveroomDto {
     private String imgurl;
     //总页数
     private int Pagenum;
+    //房间号
+    private String RoomId;
 
     public LiveroomDto(String username, Integer fans, Integer popularity, Integer degreeofeat, String theme, String roomname) {
         this.username = username;
@@ -36,7 +38,7 @@ public class LiveroomDto {
         this.roomname = roomname;
     }
 
-    public LiveroomDto(String username, Integer fans, Integer popularity, Integer degreeofeat, String theme, String roomname,String state,String imgurl) {
+    public LiveroomDto(String username, Integer fans, Integer popularity, Integer degreeofeat, String theme, String roomname,String state,String imgurl,String roomId) {
         this.username = username;
         this.fans = fans;
         this.popularity = popularity;
@@ -45,5 +47,6 @@ public class LiveroomDto {
         this.roomname = roomname;
         this.state=state;
         this.imgurl=imgurl;
+        this.RoomId=roomId;
     }
 }

@@ -132,9 +132,9 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
                 state = "直播中";
             }
             if(theme.equals("全部")){
-                liveroomDtos.add(new LiveroomDto(anchor.getUsername(),anchor.getFans(),anchor.getPopularity(),liveroom.getDegreeofeat(),liveroom.getTheme(),liveroom.getRoomname(),state,liveroom.getImgurl()));
+                liveroomDtos.add(new LiveroomDto(anchor.getUsername(),anchor.getFans(),anchor.getPopularity(),liveroom.getDegreeofeat(),liveroom.getTheme(),liveroom.getRoomname(),state,liveroom.getImgurl(),anchor.getRoomId()));
             }else if(liveroom.getTheme().equals(theme)){
-                liveroomDtos.add(new LiveroomDto(anchor.getUsername(),anchor.getFans(),anchor.getPopularity(),liveroom.getDegreeofeat(),liveroom.getTheme(),liveroom.getRoomname(),state,liveroom.getImgurl()));
+                liveroomDtos.add(new LiveroomDto(anchor.getUsername(),anchor.getFans(),anchor.getPopularity(),liveroom.getDegreeofeat(),liveroom.getTheme(),liveroom.getRoomname(),state,liveroom.getImgurl(),anchor.getRoomId()));
             }
         }
         return getList(currentPage,pageSize,liveroomDtos);
