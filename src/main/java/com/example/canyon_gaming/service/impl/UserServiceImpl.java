@@ -75,7 +75,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public String register(User registerUser) {
         //用户名正则，3到16位（字母，数字，下划线，减号）
-        Pattern pUsername = Pattern.compile("^[a-zA-Z0-9_-]{3,16}$");
+        Pattern pUsername = Pattern.compile("^[a-zA-Z0-9_-||\u4e00-\u9fa5]{3,16}$");
         Matcher pu = pUsername.matcher(registerUser.getUsername());
         //匹配密码格式,4-16位且不能含有中文
         Pattern pPassword = Pattern.compile("^[^\\u4e00-\\u9fa5]{3,16}$");
@@ -87,7 +87,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 //        Pattern pEmail = Pattern.compile("^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$");
 //        Matcher me = pEmail.matcher(registerUser.getEmail());
         if (!pu.matches()) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "用户名格式有误，请输入3-16位(可以是字母，数字，下划线，减号)的有效字符!");
+            throw new ServiceException(Constants.CODE_600.getCode(), "用户名格式有误，请输入3-16位(可以是字母，数字，下划线，减号,中文)的有效字符!");
         }
         if (!pp.matches()) {
             throw new ServiceException(Constants.CODE_600.getCode(), "密码格式有误,请输入4-16位且不能含有中文的有效字符!");
@@ -132,7 +132,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new ServiceException(Constants.CODE_600.getCode(), "操作失败!");
         }
         //用户名正则，3到16位（字母，数字，下划线，减号）
-        Pattern pUsername = Pattern.compile("^[a-zA-Z0-9_-]{3,16}$");
+        Pattern pUsername = Pattern.compile("^[a-zA-Z0-9_-||\u4e00-\u9fa5]{3,16}$");
         Matcher pu = pUsername.matcher(user.getUsername());
         //匹配密码格式,4-16位且不能含有中文
 //        Pattern pPassword = Pattern.compile("^[^\\u4e00-\\u9fa5]{3,16}$");
@@ -165,9 +165,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public IPage<User> selectByPage(Integer currentPage, Integer pageSize) {
         QueryWrapper<User> pageWrapper = new QueryWrapper<>();
         //大于1的用户，默认1是管理员
-        pageWrapper.gt("id", 1);
-        //按照uid升序
-        pageWrapper.orderByAsc("id");
+        pageWrapper.eq("level", 1)
+                .or().eq("level", 3)
+                .orderByAsc("id");
 
         pageWrapper.select(User.class, userPage -> !userPage.getColumn().equals("password"));
         //第一个参数为查询第几页,第二个参数为每页多少条记录
