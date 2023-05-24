@@ -83,6 +83,7 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
         //第一个参数为查询第几页,第二个参数为每页多少条记录
         Page<Anchor> page = new Page<>(currentPage, pageSize);
         IPage<Anchor> IPage = anchorMapper.selectPage(page, anchorQueryWrapper);
+        IPage.setTotal(IPage.getTotal());
         return IPage;
     }
 
@@ -91,7 +92,7 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
     public String cancelFollow(Integer uid, Integer aid) {
         QueryWrapper<Follow> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("uid", uid).eq("aid", aid);
-        if (getOne(queryWrapper)==null) {
+        if (getOne(queryWrapper) == null) {
             throw new ServiceException(Constants.CODE_600.getCode(), "操作失败");
         }
         Anchor anchor = anchorMapper.selectById(aid);
