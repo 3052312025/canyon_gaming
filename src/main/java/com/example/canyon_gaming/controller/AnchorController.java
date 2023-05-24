@@ -49,7 +49,6 @@ public class AnchorController {
     //查询6个热门主播的热度值
     @GetMapping("/getSixPopularity")
     public Result getSixPopularity() {
-        System.out.println(TokenUtils.getCurrentUser());
         return Result.success(anchorService.getSixPopularity());
     }
 
