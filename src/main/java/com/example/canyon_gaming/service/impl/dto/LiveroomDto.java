@@ -1,9 +1,12 @@
 package com.example.canyon_gaming.service.impl.dto;
 
-import com.example.canyon_gaming.entity.Anchor;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class LiveroomDto {
     //用户名
     private String username;
@@ -21,16 +24,12 @@ public class LiveroomDto {
     private String state;
     //直播间图片
     private String imgurl;
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-
+    //总页数
+    private int Pagenum;
+    //房间号
+    private String RoomId;
+    //直播间url
+    private String liveRoomUrl;
 
     public LiveroomDto(String username, Integer fans, Integer popularity, Integer degreeofeat, String theme, String roomname) {
         this.username = username;
@@ -41,7 +40,7 @@ public class LiveroomDto {
         this.roomname = roomname;
     }
 
-    public LiveroomDto(String username, Integer fans, Integer popularity, Integer degreeofeat, String theme, String roomname,String state,String imgurl) {
+    public LiveroomDto(String username, Integer fans, Integer popularity, Integer degreeofeat, String theme, String roomname,String state,String imgurl,String roomId) {
         this.username = username;
         this.fans = fans;
         this.popularity = popularity;
@@ -50,53 +49,6 @@ public class LiveroomDto {
         this.roomname = roomname;
         this.state=state;
         this.imgurl=imgurl;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Integer getFans() {
-        return fans;
-    }
-
-    public void setFans(Integer fans) {
-        this.fans = fans;
-    }
-
-    public Integer getPopularity() {
-        return popularity;
-    }
-
-    public void setPopularity(Integer popularity) {
-        this.popularity = popularity;
-    }
-
-    public Integer getDegreeofeat() {
-        return degreeofeat;
-    }
-
-    public void setDegreeofeat(Integer degreeofeat) {
-        this.degreeofeat = degreeofeat;
-    }
-
-    public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-
-    public String getRoomname() {
-        return roomname;
-    }
-
-    public void setRoomname(String roomname) {
-        this.roomname = roomname;
+        this.RoomId=roomId;
     }
 }
