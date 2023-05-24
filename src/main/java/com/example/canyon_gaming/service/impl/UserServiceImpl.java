@@ -165,9 +165,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public IPage<User> selectByPage(Integer currentPage, Integer pageSize) {
         QueryWrapper<User> pageWrapper = new QueryWrapper<>();
         //大于1的用户，默认1是管理员
-        pageWrapper.gt("id", 1);
-        //按照uid升序
-        pageWrapper.orderByAsc("id");
+        pageWrapper.eq("level", 2)
+                .or().eq("level", 3)
+                .orderByAsc("id");
 
         pageWrapper.select(User.class, userPage -> !userPage.getColumn().equals("password"));
         //第一个参数为查询第几页,第二个参数为每页多少条记录
