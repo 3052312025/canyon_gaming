@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.canyon_gaming.service.IUserService;
 import com.example.canyon_gaming.service.impl.dto.AnchorDto;
 import com.example.canyon_gaming.service.impl.dto.UserDto;
+import com.example.canyon_gaming.service.impl.dto.showAnchorDto;
 import com.example.canyon_gaming.utils.TokenUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
                 //将user和userDto相同的属性赋值
                 BeanUtils.copyProperties(anchor, anchorDto);
                 //设置token
-                String token = TokenUtils.genToken(String.valueOf(anchor.getId()), anchor.getPassword());
+                String token = TokenUtils.genToken(String.valueOf(anchor.getUid()), anchor.getPassword());
                 anchorDto.setToken(token);
                 return anchorDto;
             } else {
@@ -132,6 +133,11 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
             return anchorList.subList(0, 6);
         }
         return anchorList;
+    }
+
+    @Override
+    public showAnchorDto getsix() {
+        return new showAnchorDto(anchorMapper.getSixName(),anchorMapper.getSixPopularity(),anchorMapper.getSixFans());
     }
 
 

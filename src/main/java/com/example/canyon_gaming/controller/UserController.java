@@ -53,7 +53,6 @@ public class UserController {
     @GetMapping("/showAllUser")
     public Result showAllUser(@RequestParam Integer currentPage, @RequestParam Integer pageSize) {
         return Result.success(userService.selectByPage(currentPage, pageSize));
-
     }
 
     //用户信息修改

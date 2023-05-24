@@ -18,13 +18,13 @@
             parameterType="java.lang.Integer">
         select * from anchor where uid = #{uid}
     </select>
-    <select id="getSixPopularity">
+    <select id="getSixPopularity" resultType="integer">
         select popularity from anchor order by popularity desc limit 0,6
     </select>
-    <select id="getSixFans">
+    <select id="getSixFans" resultType="integer">
         select fans from anchor order by popularity desc limit 0,6
     </select>
-    <select id="getSixName">
+    <select id="getSixName" resultType="string">
         select username from anchor order by popularity desc limit 0,6
     </select>
     <select id="getByRoomId" resultType="com.example.canyon_gaming.entity.Anchor"

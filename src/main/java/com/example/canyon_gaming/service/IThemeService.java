@@ -24,5 +24,8 @@ public interface IThemeService extends IService<Theme> {
     //显示主题
     List<Theme> showTheme();
 
+    //展示主题和热度
+    List<ThemeDto> show();
+
 
 }

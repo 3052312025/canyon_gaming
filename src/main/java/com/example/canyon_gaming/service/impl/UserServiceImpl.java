@@ -103,9 +103,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         User useP = getOne(new QueryWrapper<User>().eq("phone", registerUser.getPhone()));
 //        User useE = getOne(new QueryWrapper<User>().eq("email", registerUser.getEmail()));
         if (useN != null) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "该用户名已存在,请重新输入");
+            throw new ServiceException(Constants.CODE_600.getCode(), "该用户名已存在,请重新输入!");
         } else if (useP != null) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "该电话号码已存在,请重新输入");
+            throw new ServiceException(Constants.CODE_600.getCode(), "该电话号码已存在,请重新输入!");
         }
 //        else if (useE != null) {
 //            throw new ServiceException(Constants.CODE_600.getCode(), "该邮箱已存在,请重新输入");
@@ -119,9 +119,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public String deleteById(Integer id) {
         if (!removeById(id)) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "操作失败");
+            throw new ServiceException(Constants.CODE_600.getCode(), "操作失败!");
         }
-        return "删除成功";
+        return "删除成功!";
     }
 
     //用户修改个人信息
@@ -129,35 +129,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public String modify(User user) {
         User user1 = getById(user.getId());
         if (user1 == null) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "操作失败");
+            throw new ServiceException(Constants.CODE_600.getCode(), "操作失败!");
         }
         //用户名正则，3到16位（字母，数字，下划线，减号）
         Pattern pUsername = Pattern.compile("^[a-zA-Z0-9_-]{3,16}$");
         Matcher pu = pUsername.matcher(user.getUsername());
         //匹配密码格式,4-16位且不能含有中文
-        Pattern pPassword = Pattern.compile("^[^\\u4e00-\\u9fa5]{3,16}$");
-        Matcher pp = pPassword.matcher(user.getPassword());
+//        Pattern pPassword = Pattern.compile("^[^\\u4e00-\\u9fa5]{3,16}$");
+//        Matcher pp = pPassword.matcher(user.getPassword());
         //匹配邮箱的格式
         Pattern pEmail = Pattern.compile("^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$");
         Matcher me = pEmail.matcher(user.getEmail());
         if (!pu.matches()) {
             throw new ServiceException(Constants.CODE_600.getCode(), "用户名格式有误，请输入3-16位(可以是字母，数字，下划线，减号)的有效字符!");
         }
-        if (!pp.matches()) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "密码格式有误,请输入4-16位且不能含有中文的有效字符!");
-        }
+//        if (!pp.matches()) {
+//            throw new ServiceException(Constants.CODE_600.getCode(), "密码格式有误,请输入4-16位且不能含有中文的有效字符!");
+//        }
         if (!me.matches()) {
             throw new ServiceException(Constants.CODE_600.getCode(), "请输入正确的邮箱!");
         }
         User useN = getOne(new QueryWrapper<User>().eq("username", user.getUsername()));
         User useE = getOne(new QueryWrapper<User>().eq("email", user.getEmail()));
         if (useN != null && !useN.getUsername().equals(user1.getUsername())) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "用户名已存在");
+            throw new ServiceException(Constants.CODE_600.getCode(), "用户名已存在!");
         } else if (useE != null && !useE.getEmail().equals(user1.getEmail())) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "邮箱已存在");
+            throw new ServiceException(Constants.CODE_600.getCode(), "邮箱已存在!");
         }
         updateById(user);
-        return "修改成功";
+        return "修改成功!";
     }
 
     //分页展示用户列表
@@ -173,6 +173,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         //第一个参数为查询第几页,第二个参数为每页多少条记录
         Page<User> page = new Page<>(currentPage, pageSize);
         IPage<User> userIPage = userMapper.selectPage(page, pageWrapper);
+        //sk
+        userIPage.setTotal(userIPage.getTotal());
         return userIPage;
     }
 

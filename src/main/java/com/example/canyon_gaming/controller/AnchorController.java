@@ -56,4 +56,10 @@ public class AnchorController {
     public Result test(@RequestParam Integer id) {
         return Result.success(anchorService.getById(id));
     }
+
+    //获取6个主播信息
+    @GetMapping("/getsix")
+    public Result g(){
+        return Result.success(anchorService.getsix());
+    }
 }
