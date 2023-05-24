@@ -74,7 +74,7 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
             throw new ServiceException(Constants.CODE_600.getCode(), "操作失败");
         }
         //用户名正则，3到16位（字母，数字，下划线，减号）
-        Pattern pUsername = Pattern.compile("^[a-zA-Z0-9_-]{3,16}$");
+        Pattern pUsername = Pattern.compile("^[a-zA-Z0-9_-||\u4e00-\u9fa5]{3,16}$");
         Matcher pu = pUsername.matcher(anchor.getUsername());
         //匹配密码格式,4-16位且不能含有中文
         Pattern pPassword = Pattern.compile("^[^\\u4e00-\\u9fa5]{3,16}$");
@@ -83,7 +83,6 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
         Pattern pEmail = Pattern.compile("^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$");
         Matcher me = pEmail.matcher(anchor.getEmail());
         if (!pu.matches()) {
-            throw new ServiceException(Constants.CODE_600.getCode(), "用户名格式有误，请输入3-16位(可以是字母，数字，下划线，减号)的有效字符!");
         }
         if (!pp.matches()) {
             throw new ServiceException(Constants.CODE_600.getCode(), "密码格式有误,请输入4-16位且不能含有中文的有效字符!");
