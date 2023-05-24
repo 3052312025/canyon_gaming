@@ -7,6 +7,7 @@ import com.example.canyon_gaming.service.impl.dto.LiveroomDto;
 import com.example.canyon_gaming.service.impl.dto.OpenLiveDto;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -19,7 +20,7 @@ import java.util.List;
 public interface ILiveroomService extends IService<Liveroom> {
 
     //开播方法
-    String start(Integer id, String roomname, String theme,String imgurl);
+    String start(Integer id, String roomname, String theme, String imgurl);
 
     //下播方法
     String over(Integer id);
