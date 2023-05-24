@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.spec.ECField;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,5 +63,18 @@ public class ThemeServiceImpl extends ServiceImpl<ThemeMapper, Theme> implements
         List<Theme> theme = themeMapper.selectList(null);
         return theme;
     }
+
+    //展示主题和热度
+    @Override
+    public List<ThemeDto> show() {
+        List<Theme> theme = themeMapper.selectList(null);
+        List<ThemeDto> themeDtos = new ArrayList<>();
+        for(int i=0;i<theme.size();i++){
+            themeDtos.add(new ThemeDto(theme.get(i).getTheme(),theme.get(i).getTouch()));
+        }
+        return themeDtos;
+    }
+
+
 
 }

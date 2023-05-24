@@ -41,7 +41,7 @@ public class ThemeController {
         return Result.success(themeService.deleteTheme(themeId));
     }
 
-    //获取主题与热度
+    //显示主题
     @GetMapping("/showTheme")
     public List<Theme> showTheme() {
         return themeService.showTheme();
@@ -55,5 +55,12 @@ public class ThemeController {
             return "sddfdsf";
         }
     }
+
+    //主题与热度
+    @GetMapping("/getTheme")
+    public Result get(){
+        return Result.success(themeService.show());
+    }
+
 
 }

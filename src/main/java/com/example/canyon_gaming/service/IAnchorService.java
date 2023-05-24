@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.canyon_gaming.entity.User;
 import com.example.canyon_gaming.service.impl.dto.AnchorDto;
 import com.example.canyon_gaming.service.impl.dto.UserDto;
+import com.example.canyon_gaming.service.impl.dto.showAnchorDto;
 
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,9 @@ public interface IAnchorService extends IService<Anchor> {
 
     //获取最热门的6个主播的热度值
     List<Anchor> getSixPopularity();
+
+    //获取6个主播
+    showAnchorDto getsix();
 
 
 }

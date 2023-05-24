@@ -6,6 +6,8 @@ import com.example.canyon_gaming.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -23,8 +25,8 @@ public interface AnchorMapper extends BaseMapper<Anchor> {
     Anchor getPhone(@Param("id") Integer id,@Param("phone") String phone);
     Anchor getEmail(@Param("id") Integer id,@Param("email") String email);
     Anchor getByUid(@Param("uid") Integer uid);
-    int[] getSixPopularity();
-    int[] getSixFans();
-    String[] getSixName();
+    List<Integer> getSixPopularity();
+    List<Integer> getSixFans();
+    List<String> getSixName();
     Anchor getByRoomId(@Param("room_id") String room_id);
 }

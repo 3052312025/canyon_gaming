@@ -1,5 +1,10 @@
 package com.example.canyon_gaming.service.impl.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class ThemeDto {
     private String name;
     private Integer value;

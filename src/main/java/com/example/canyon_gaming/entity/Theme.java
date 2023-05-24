@@ -41,6 +41,7 @@ public class Theme implements Serializable {
         this.touch = touch;
     }
 
+    //点击数 热度
     private int touch;
 
     public Integer getId() {
