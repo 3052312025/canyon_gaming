@@ -29,14 +29,14 @@ public class LiveroomController {
 
     //开播方法
     @GetMapping("/open")
-    public Result Open(Integer uid, String roomname, String theme,String imgurl){
-        return Result.success(liveroomService.start(uid,roomname,theme,imgurl));
+    public Result Open(Integer id, String roomname, String theme,String imgurl){
+        return Result.success(liveroomService.start(id,roomname,theme,imgurl));
     }
 
     //下播方法
     @GetMapping("/over")
-    public Result Over(Integer uid){
-        return Result.success(liveroomService.over(uid));
+    public Result Over(Integer id){
+        return Result.success(liveroomService.over(id));
     }
 
     //直播间点击方法
@@ -47,13 +47,13 @@ public class LiveroomController {
 
     //直播间展示方法
     @GetMapping("/show")
-    public Result show(Integer Page ,Integer pageSize ,String theme){
-        return Result.success(liveroomService.show(Page,pageSize,theme));
+    public Result show(Integer currentPage ,Integer pageSize ,String theme){
+        return Result.success(liveroomService.show(currentPage,pageSize,theme));
     }
 
     @GetMapping("/getOld")
-    public Result getOld(Integer uid){
-        return Result.success(liveroomService.getOld(uid));
+    public Result getOld(Integer id){
+        return Result.success(liveroomService.getOld(id));
     }
 
 }

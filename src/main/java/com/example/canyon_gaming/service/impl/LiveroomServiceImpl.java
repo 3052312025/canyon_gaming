@@ -1,7 +1,7 @@
 package com.example.canyon_gaming.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import cn.hutool.core.util.StrUtil;
 import com.example.canyon_gaming.common.Constants;
 import com.example.canyon_gaming.entity.Anchor;
 import com.example.canyon_gaming.entity.Liveroom;
@@ -14,12 +14,14 @@ import com.example.canyon_gaming.service.ILiveroomService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.canyon_gaming.service.impl.dto.LiveroomDto;
 import com.example.canyon_gaming.service.impl.dto.OpenLiveDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -32,22 +34,28 @@ import java.util.List;
 @Service
 public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> implements ILiveroomService {
 
-    @Autowired
+    @Resource
     AnchorMapper anchorMapper;
 
-    @Autowired
+    @Resource
     LiveroomMapper liveroomMapper;
+
+    @Value("${live-room.open-live.server-address}")
+    String serverAddress;
 
     //开播方法
     @Override
-    public String start(Integer uid, String roomname, String theme,String imgurl) {
+    public String start(Integer id, String roomname, String theme, String imgurl) {
         //获取主播
-        Anchor anchor = anchorMapper.getByUid(uid);
+        Anchor anchor = anchorMapper.getByUid(id);
         //获取直播间
         Liveroom liveroom = liveroomMapper.getByRoomID(anchor.getRoomId());
 //        热度设置为100，选取主题加入
         if (liveroom.getDegreeofeat()!=0){
             throw new ServiceException(Constants.CODE_600.getCode(), "您已开播！");
+        }
+        if (StrUtil.isBlank(theme)) {
+            throw new ServiceException(Constants.CODE_400.getCode(),"请选择主题！");
         }
         liveroom.setTheme(theme);
         liveroom.setRoomname(roomname);
@@ -59,17 +67,14 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
 
 //        主播直播次数加一
         anchor.setLiveNum(anchor.getLiveNum()+1);
-
-        //生成推流码
-        String uuid = "liveroom_"+anchor.getRoomId();
-        return uuid;
+        return "成功开播！";
     }
 
     //下播方法
     @Override
-    public String over(Integer uid) {
+    public String over(Integer id) {
         //获取主播
-        Anchor anchor = anchorMapper.getByUid(uid);
+        Anchor anchor = anchorMapper.getByUid(id);
         //获取直播间
         Liveroom liveroom = liveroomMapper.getByRoomID(anchor.getRoomId());
         //结算虚拟币
@@ -108,7 +113,7 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
 
     //首页展示
     @Override
-    public List<LiveroomDto> show(Integer Page, Integer pageSize, String theme) {
+    public List<LiveroomDto> show(Integer currentPage, Integer pageSize, String theme) {
         List<LiveroomDto> liveroomDtos = new ArrayList<>();
         //获取全部主播
         List<Anchor> anchors = anchorMapper.selectList(null);
@@ -132,15 +137,15 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
                 liveroomDtos.add(new LiveroomDto(anchor.getUsername(),anchor.getFans(),anchor.getPopularity(),liveroom.getDegreeofeat(),liveroom.getTheme(),liveroom.getRoomname(),state,liveroom.getImgurl()));
             }
         }
-        return getList(Page,pageSize,liveroomDtos);
+        return getList(currentPage,pageSize,liveroomDtos);
     }
 
 
     //分页方法
-    List<LiveroomDto> getList(Integer Page,Integer pageSize,List<LiveroomDto> list){
+    List<LiveroomDto> getList(Integer currentPage,Integer pageSize,List<LiveroomDto> list){
         List<LiveroomDto> liveroomDtos = new ArrayList<>();
-        int x = (Page-1)*pageSize;
-        int z = Page*pageSize;
+        int x = (currentPage-1)*pageSize;
+        int z = currentPage*pageSize;
         if(pageSize==0){
             return null;
         }
@@ -161,14 +166,16 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
     ThemeMapper themeMapper;
     //原先信息返回
     @Override
-    public OpenLiveDto getOld(Integer uid) {
+    public OpenLiveDto getOld(Integer id) {
         //获取主播对象
-        Anchor anchor = anchorMapper.getByUid(uid);
+        Anchor anchor = anchorMapper.getByUid(id);
         //获取直播间对象
         Liveroom liveroom = liveroomMapper.getByRoomID(anchor.getRoomId());
         //获取主题
         List<Theme> themes = themeMapper.selectList(null);
-        OpenLiveDto openLiveDto = new OpenLiveDto(themes,liveroom.getImgurl(),liveroom.getRoomname());
+        //生成推流码
+        String uuid = "liveroom_"+anchor.getRoomId();
+        OpenLiveDto openLiveDto = new OpenLiveDto(themes,liveroom.getTheme(),liveroom.getImgurl(),liveroom.getRoomname(),liveroom.getDegreeofeat(),uuid,serverAddress);
         return openLiveDto;
     }
 }

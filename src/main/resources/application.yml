@@ -8,8 +8,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/gamelive?useUnicode=true&useSSL=false&characterEncoding=utf8
     username: root
-    password: 354172
-#    password: 123456
+#    password: 354172
+    password: 123456
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*.xml
@@ -23,9 +23,10 @@ mybatis-plus:
 server:
   port: 8008
 
-#files:
-#  upload:
-#    path: D:/\u3002\u3002\u3002/EE/travelDemo/src/main/resources/static/images
+live-room:
+  open-live:
+    #直播服务器推流地址
+    server-address: rtmp://192.168.159.130:1935/live
 
 #HealMe测试区
 files:

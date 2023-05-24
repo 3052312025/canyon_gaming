@@ -54,7 +54,7 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
                 //将user和userDto相同的属性赋值
                 BeanUtils.copyProperties(anchor, anchorDto);
                 //设置token
-                String token = TokenUtils.genToken(String.valueOf(anchor.getId()), anchor.getPassword());
+                String token = TokenUtils.genToken(String.valueOf(anchor.getUid()), anchor.getPassword());
                 anchorDto.setToken(token);
                 return anchorDto;
             } else {
