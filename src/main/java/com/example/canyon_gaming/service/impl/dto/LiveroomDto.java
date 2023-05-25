@@ -30,6 +30,9 @@ public class LiveroomDto {
     private String RoomId;
     //直播间url
     private String liveRoomUrl;
+    //用户头像
+    private String userUrl;
+
 
     public LiveroomDto(String username, Integer fans, Integer popularity, Integer degreeofeat, String theme, String roomname) {
         this.username = username;
@@ -40,7 +43,7 @@ public class LiveroomDto {
         this.roomname = roomname;
     }
 
-    public LiveroomDto(String username, Integer fans, Integer popularity, Integer degreeofeat, String theme, String roomname,String state,String imgurl,String roomId) {
+    public LiveroomDto(String username, Integer fans, Integer popularity, Integer degreeofeat, String theme, String roomname,String state,String imgurl,String roomId,String userUrl) {
         this.username = username;
         this.fans = fans;
         this.popularity = popularity;
@@ -50,5 +53,6 @@ public class LiveroomDto {
         this.state=state;
         this.imgurl=imgurl;
         this.RoomId=roomId;
+        this.userUrl=userUrl;
     }
 }
