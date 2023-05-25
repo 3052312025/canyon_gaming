@@ -1,5 +1,6 @@
 package com.example.canyon_gaming.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.canyon_gaming.entity.Anchor;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.canyon_gaming.entity.User;
@@ -22,12 +23,14 @@ public interface IAnchorService extends IService<Anchor> {
     //主播登录信息
     AnchorDto login(Map<String, Object> loginMap);
 
-
     //主播个人信息维护
     String modify(Anchor anchor);
 
     //查看主播个人信息
     Anchor mine(String username);
+
+    //分页展示所有主播列表
+    IPage<Anchor> selectByPage(Integer currentPage, Integer pageSize);
 
     //获取最热门的6个主播的热度值
     List<Anchor> getSixPopularity();
