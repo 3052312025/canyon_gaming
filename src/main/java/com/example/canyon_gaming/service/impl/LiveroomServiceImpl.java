@@ -46,9 +46,9 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
 
     //开播方法
     @Override
-    public String start(Integer id, String roomname, String theme, String imgurl) {
+    public String start(Integer uid, String roomname, String theme, String imgurl) {
         //获取主播
-        Anchor anchor = anchorMapper.getByUid(id);
+        Anchor anchor = anchorMapper.getByUid(uid);
         //获取直播间
         Liveroom liveroom = liveroomMapper.getByRoomID(anchor.getRoomId());
 //        热度设置为100，选取主题加入
@@ -73,9 +73,9 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
 
     //下播方法
     @Override
-    public String over(Integer id) {
+    public String over(Integer uid) {
         //获取主播
-        Anchor anchor = anchorMapper.getByUid(id);
+        Anchor anchor = anchorMapper.getByUid(uid);
         //获取直播间
         Liveroom liveroom = liveroomMapper.getByRoomID(anchor.getRoomId());
         //结算虚拟币
@@ -110,7 +110,7 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
         String liveRoomUrl =flvUrl + "/" + "liveroom_" + anchor.getRoomId()+".flv";
 
         //返回封装数据
-        LiveroomDto liveroomDto = new LiveroomDto(anchor.getUsername(), anchor.getFans(), anchor.getPopularity(), liveroom.getDegreeofeat(), liveroom.getTheme(), liveroom.getRoomname(), "", anchor.getAvatarUrl(), 0, liveroom.getRoomid(), liveRoomUrl);
+        LiveroomDto liveroomDto = new LiveroomDto(anchor.getUsername(), anchor.getFans(), anchor.getPopularity(), liveroom.getDegreeofeat(), liveroom.getTheme(), liveroom.getRoomname(), "", anchor.getAvatarUrl(), 0, liveroom.getRoomid(), liveRoomUrl,anchor.getAvatarUrl());
         return liveroomDto;
     }
 
@@ -135,9 +135,9 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
                 state = "直播中";
             }
             if (theme.equals("全部")) {
-                liveroomDtos.add(new LiveroomDto(anchor.getUsername(), anchor.getFans(), anchor.getPopularity(), liveroom.getDegreeofeat(), liveroom.getTheme(), liveroom.getRoomname(), state, liveroom.getImgurl(), anchor.getRoomId()));
+                liveroomDtos.add(new LiveroomDto(anchor.getUsername(), anchor.getFans(), anchor.getPopularity(), liveroom.getDegreeofeat(), liveroom.getTheme(), liveroom.getRoomname(), state, liveroom.getImgurl(), anchor.getRoomId(),anchor.getAvatarUrl()));
             } else if (liveroom.getTheme().equals(theme)) {
-                liveroomDtos.add(new LiveroomDto(anchor.getUsername(), anchor.getFans(), anchor.getPopularity(), liveroom.getDegreeofeat(), liveroom.getTheme(), liveroom.getRoomname(), state, liveroom.getImgurl(), anchor.getRoomId()));
+                liveroomDtos.add(new LiveroomDto(anchor.getUsername(), anchor.getFans(), anchor.getPopularity(), liveroom.getDegreeofeat(), liveroom.getTheme(), liveroom.getRoomname(), state, liveroom.getImgurl(), anchor.getRoomId(),anchor.getAvatarUrl()));
             }
         }
         return getList(currentPage, pageSize, liveroomDtos);
@@ -170,9 +170,9 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
 
     //原先信息返回
     @Override
-    public OpenLiveDto getOld(Integer id) {
+    public OpenLiveDto getOld(Integer uid) {
         //获取主播对象
-        Anchor anchor = anchorMapper.getByUid(id);
+        Anchor anchor = anchorMapper.getByUid(uid);
         //获取直播间对象
         Liveroom liveroom = liveroomMapper.getByRoomID(anchor.getRoomId());
         //获取主题
