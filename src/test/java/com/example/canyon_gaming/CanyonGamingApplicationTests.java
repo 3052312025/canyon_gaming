@@ -19,8 +19,8 @@ class CanyonGamingApplicationTests {
 
     @Test
     void contextLoads() {
-        Pattern pUsername = Pattern.compile("^[^\\u4e00-\\u9fa5]{3,16}$");
-        Matcher pu = pUsername.matcher("2234ds");
+        Pattern pUsername = Pattern.compile("^[a-zA-Z0-9_-||\u4e00-\u9fa5]{3,16}$");
+        Matcher pu = pUsername.matcher("斤斤计较");
         System.out.println(pu.matches());
     }
 }

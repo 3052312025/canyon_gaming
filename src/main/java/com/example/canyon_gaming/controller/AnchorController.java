@@ -4,6 +4,7 @@ package com.example.canyon_gaming.controller;
 import com.example.canyon_gaming.common.Result;
 import com.example.canyon_gaming.entity.Anchor;
 import com.example.canyon_gaming.service.IAnchorService;
+import com.example.canyon_gaming.utils.TokenUtils;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,7 @@ public class AnchorController {
     //根据用户名获取博主信息
     @GetMapping("/getAnchorByName")
     public Result mine(@RequestParam(value = "username") String username) {
+
         return Result.success(anchorService.mine(username));
     }
 
@@ -42,6 +44,12 @@ public class AnchorController {
     @PostMapping("/modifyAnchor")
     public Result modifyAnchor(@RequestBody Anchor anchor) {
         return Result.success(anchorService.modify(anchor));
+    }
+
+    //分页展示全部主播信息
+    @GetMapping("/showAllAnchor")
+    public Result showAllAnchor(@RequestParam Integer currentPage, @RequestParam Integer pageSize) {
+        return Result.success(anchorService.selectByPage(currentPage, pageSize));
     }
 
     //查询6个热门主播的热度值
@@ -59,7 +67,7 @@ public class AnchorController {
 
     //获取6个主播信息
     @GetMapping("/getsix")
-    public Result g(){
+    public Result g() {
         return Result.success(anchorService.getsix());
     }
 }

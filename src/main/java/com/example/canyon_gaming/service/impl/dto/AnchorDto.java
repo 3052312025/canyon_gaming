@@ -19,6 +19,11 @@ public class AnchorDto {
      */
     private String username;
 
+    /**
+     * 密码
+     */
+    private String password;
+
     private String email;
 
     private String avatarUrl;
@@ -49,5 +54,5 @@ public class AnchorDto {
     //user表id
     private Integer uid;
 
-    private  String token;
+    private String token;
 }
