@@ -153,5 +153,22 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
         return new showAnchorDto(anchorMapper.getSixName(), anchorMapper.getSixPopularity(), anchorMapper.getSixFans());
     }
 
+    //提现 提现规则：虚拟币：现金=2：1
+    @Override
+    public String cash(Integer Aid, Double cash) {
+        //获取主播对象
+        Anchor anchor = anchorMapper.selectById(Aid);
+        //查询虚拟币
+        Double virtualUrrency = anchor.getVirtualUrrency();
+        //判断提现金额是否合法
+        if(cash<0&&(virtualUrrency-2*cash)<0){
+            throw new ServiceException(Constants.CODE_600.getCode(), "提现超额!");
+        }
+        //修改数据库
+        anchor.setVirtualUrrency(virtualUrrency-2*cash);
+        anchorMapper.updateById(anchor);
+        return "提现成功!";
+    }
+
 
 }
