@@ -1,5 +1,6 @@
 package com.example.canyon_gaming.service.impl;
 
+import cn.hutool.core.date.DatePattern;
 import com.example.canyon_gaming.common.Constants;
 import com.example.canyon_gaming.entity.Anchor;
 import com.example.canyon_gaming.entity.Worktime;
@@ -12,8 +13,13 @@ import com.example.canyon_gaming.service.impl.dto.WorkTimeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,10 +41,21 @@ public class WorktimeServiceImpl extends ServiceImpl<WorktimeMapper, Worktime> i
 
     //添加排班时间
     @Override
-    public String addTime(LocalDateTime startTime, LocalDateTime stopTime) {
+    public String addTime(Date startTime, Date stopTime) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate1 = sdf.format(startTime);
+        String formattedDate2 = sdf.format(stopTime);
+        Date startTime1 = null;
+        Date stopTime2 = null;
+        try {
+            startTime1 = sdf.parse(formattedDate1);
+            stopTime2 = sdf.parse(formattedDate2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         Worktime worktime = new Worktime();
-        worktime.setStartTime(startTime);
-        worktime.setStopTime(stopTime);
+        worktime.setStartTime(startTime1);
+        worktime.setStopTime(stopTime2);
         worktimeMapper.insert(worktime);
         return "添加成功";
     }
@@ -91,9 +108,14 @@ public class WorktimeServiceImpl extends ServiceImpl<WorktimeMapper, Worktime> i
     //排班展示
     @Override
     public List<WorkTimeDto> showTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         List<Worktime> worktimes = worktimeMapper.selectAll();
         List<WorkTimeDto> workTimeDtos = new ArrayList<>();
         for(int i = 0;i<worktimes.size();i++){
+
+            String startTime = sdf.format(worktimes.get(i).getStartTime());
+            String stopTime = sdf.format(worktimes.get(i).getStopTime());
+
             String username = "";
             String state = "可申请";
             //根据aid查询用户名
@@ -107,7 +129,7 @@ public class WorktimeServiceImpl extends ServiceImpl<WorktimeMapper, Worktime> i
             }else if(worktimes.get(i).getState()==2){
                 state = "取消申请中";
             }
-            workTimeDtos.add(new WorkTimeDto(worktimes.get(i).getId(),worktimes.get(i).getStartTime(),worktimes.get(i).getStopTime(),username,state));
+            workTimeDtos.add(new WorkTimeDto(worktimes.get(i).getId(),startTime,stopTime,username,state));
         }
         return workTimeDtos;
     }
@@ -116,16 +138,19 @@ public class WorktimeServiceImpl extends ServiceImpl<WorktimeMapper, Worktime> i
     //主播个人排班展示
     @Override
     public List<WorkTimeDto> showMyTime(Integer uid) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         List<Worktime> worktimes = worktimeMapper.selectByAid(anchorMapper.getByUid(uid).getId());
         List<WorkTimeDto> workTimeDtos = new ArrayList<>();
         for(int i = 0;i<worktimes.size();i++){
+            String startTime = sdf.format(worktimes.get(i).getStartTime());
+            String stopTime = sdf.format(worktimes.get(i).getStopTime());
             String state = "";
             if(worktimes.get(i).getState()==0){
                 state = "已排班";
             }else if(worktimes.get(i).getState()==2){
                 state = "取消申请中";
             }
-            workTimeDtos.add(new WorkTimeDto(worktimes.get(i).getId(),worktimes.get(i).getStartTime(),worktimes.get(i).getStopTime(),anchorMapper.getByUid(uid).getUsername(),state));
+            workTimeDtos.add(new WorkTimeDto(worktimes.get(i).getId(),startTime,stopTime,anchorMapper.getByUid(uid).getUsername(),state));
         }
         return workTimeDtos;
     }
@@ -147,11 +172,14 @@ public class WorktimeServiceImpl extends ServiceImpl<WorktimeMapper, Worktime> i
     //申请排班列表展示
     @Override
     public List<WorkTimeDto> showApply() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         List<Worktime> worktimes = worktimeMapper.selectByState(1);
         List<WorkTimeDto> workTimeDtos = new ArrayList<>();
         for(int i = 0;i<worktimes.size();i++){
+            String startTime = sdf.format(worktimes.get(i).getStartTime());
+            String stopTime = sdf.format(worktimes.get(i).getStopTime());
             String username = anchorMapper.selectById(worktimes.get(i).getAid()).getUsername();
-            workTimeDtos.add(new WorkTimeDto(worktimes.get(i).getId(),worktimes.get(i).getStartTime(),worktimes.get(i).getStopTime(),username,"申请排班"));
+            workTimeDtos.add(new WorkTimeDto(worktimes.get(i).getId(),startTime,stopTime,username,"申请排班"));
         }
         return workTimeDtos;
     }
@@ -160,11 +188,14 @@ public class WorktimeServiceImpl extends ServiceImpl<WorktimeMapper, Worktime> i
     //申请取消排班列表展示
     @Override
     public List<WorkTimeDto> showReApply() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         List<Worktime> worktimes = worktimeMapper.selectByState(2);
         List<WorkTimeDto> workTimeDtos = new ArrayList<>();
         for(int i = 0;i<worktimes.size();i++){
+            String startTime = sdf.format(worktimes.get(i).getStartTime());
+            String stopTime = sdf.format(worktimes.get(i).getStopTime());
             String username = anchorMapper.selectById(worktimes.get(i).getAid()).getUsername();
-            workTimeDtos.add(new WorkTimeDto(worktimes.get(i).getId(),worktimes.get(i).getStartTime(),worktimes.get(i).getStopTime(),username,"申请取消排班"));
+            workTimeDtos.add(new WorkTimeDto(worktimes.get(i).getId(),startTime,stopTime,username,"申请取消排班"));
         }
         return workTimeDtos;
     }

@@ -20,7 +20,7 @@ import java.util.List;
 public interface IWorktimeService extends IService<Worktime> {
 
     //添加排班
-    String addTime(LocalDateTime startTime ,LocalDateTime stopTime);
+    String addTime(Date startTime ,Date stopTime);
 
     //主播申请排班时间
     String applyTime(Integer tid,Integer uid);

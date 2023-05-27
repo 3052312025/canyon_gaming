@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -22,9 +23,9 @@ public class Worktime implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private LocalDateTime startTime;
+    private Date startTime;
 
-    private LocalDateTime stopTime;
+    private Date stopTime;
 
     private Integer aid;
 
@@ -38,18 +39,18 @@ public class Worktime implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-    public LocalDateTime getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
-    public LocalDateTime getStopTime() {
+    public Date getStopTime() {
         return stopTime;
     }
 
-    public void setStopTime(LocalDateTime stopTime) {
+    public void setStopTime(Date stopTime) {
         this.stopTime = stopTime;
     }
     public Integer getAid() {
