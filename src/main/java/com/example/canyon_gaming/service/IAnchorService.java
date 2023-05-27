@@ -32,6 +32,9 @@ public interface IAnchorService extends IService<Anchor> {
     //分页展示所有主播列表
     IPage<Anchor> selectByPage(Integer currentPage, Integer pageSize);
 
+    //根据id删除主播
+    public String deleteByUid(Integer uid);
+
     //获取最热门的6个主播的热度值
     List<Anchor> getSixPopularity();
 

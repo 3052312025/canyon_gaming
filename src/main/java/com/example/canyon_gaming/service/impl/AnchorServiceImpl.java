@@ -72,7 +72,7 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
     @Override
     public String modify(Anchor anchor) {
         Anchor anchor1 = anchorMapper.selectById(anchor.getId());
-        System.out.println(anchor1+"WSssssssssssssss");
+        System.out.println(anchor1 + "WSssssssssssssss");
         if (anchor1 == null) {
             throw new ServiceException(Constants.CODE_600.getCode(), "操作失败");
         }
@@ -131,6 +131,20 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
         //sk
         anchorIPage.setTotal(anchorIPage.getTotal());
         return anchorIPage;
+    }
+
+    //根据用户id删除主播
+    @Override
+    public String deleteByUid(Integer uid) {
+        User user = userMapper.selectById(uid);
+        if (user != null) {
+            user.setLevel(1);
+            iUserService.deleteById(uid);
+            userMapper.insert(user);
+            user.setId(uid);
+            return "删除成功主播成功!";
+        }
+        throw new ServiceException(Constants.CODE_600.getCode(), "数据错误!");
     }
 
     //查询6个最热门主播的热度值,粉丝数，用户名

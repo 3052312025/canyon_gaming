@@ -8,10 +8,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.canyon_gaming.common.Constants;
 import com.example.canyon_gaming.common.Result;
 import com.example.canyon_gaming.entity.Anchor;
+import com.example.canyon_gaming.entity.Follow;
 import com.example.canyon_gaming.entity.Liveroom;
 import com.example.canyon_gaming.entity.User;
 import com.example.canyon_gaming.exception.ServiceException;
 import com.example.canyon_gaming.mapper.AnchorMapper;
+import com.example.canyon_gaming.mapper.FollowMapper;
 import com.example.canyon_gaming.mapper.LiveroomMapper;
 import com.example.canyon_gaming.mapper.UserMapper;
 import com.example.canyon_gaming.service.IAnchorService;
@@ -50,6 +52,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     LiveroomMapper liveroomMapper;
+
+    @Resource
+    FollowMapper followMapper;
+
 
     //用户登录功能
     @Override
@@ -122,7 +128,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (!removeById(id)) {
             throw new ServiceException(Constants.CODE_600.getCode(), "操作失败!");
         }
-        return "删除成功!";
+        try {
+            QueryWrapper<Anchor> anchorQueryWrapper = new QueryWrapper<>();
+            anchorQueryWrapper.eq("uid", id);
+            Anchor anchor = anchorMapper.selectOne(anchorQueryWrapper);
+            if (anchor != null) {
+                QueryWrapper<Follow> followQueryWrapper = new QueryWrapper<>();
+                followQueryWrapper.eq("uid", id).eq("aid", anchor.getId());
+                QueryWrapper<Liveroom> liveroomQueryWrapper = new QueryWrapper<>();
+                liveroomQueryWrapper.eq("roomid", anchor.getRoomId());
+                anchorMapper.delete(anchorQueryWrapper);
+                followMapper.delete(followQueryWrapper);
+                liveroomMapper.delete(liveroomQueryWrapper);
+            }
+        } catch (Exception e) {
+            throw new ServiceException(Constants.CODE_500.getCode(), "系统错误!");
+        }
+
+        return "删除用户成功!";
     }
 
     //用户修改个人信息

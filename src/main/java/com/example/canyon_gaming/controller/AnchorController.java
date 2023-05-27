@@ -52,6 +52,13 @@ public class AnchorController {
         return Result.success(anchorService.selectByPage(currentPage, pageSize));
     }
 
+    //根据用户id删除主播,
+    @GetMapping("deleteAnchorByUid")
+    public   Result deleteAnchorById(@RequestParam Integer uid){
+        return  Result.success(anchorService.deleteByUid(uid));
+    }
+
+
     //查询6个热门主播的热度值
     @GetMapping("/getSixPopularity")
     public Result getSixPopularity() {
