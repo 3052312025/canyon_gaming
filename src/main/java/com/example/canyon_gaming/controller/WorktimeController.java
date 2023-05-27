@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,7 +33,7 @@ public class WorktimeController {
 
     //添加排班时间
     @GetMapping("/add")
-    public Result addTime(String startTime,String stopTime){
+    public Result addTime(Date startTime, Date stopTime){
         return Result.success(worktimeService.addTime(startTime,stopTime));
     }
 

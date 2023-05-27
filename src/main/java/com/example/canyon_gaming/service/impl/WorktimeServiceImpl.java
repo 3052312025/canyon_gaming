@@ -13,9 +13,13 @@ import com.example.canyon_gaming.service.impl.dto.WorkTimeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,12 +41,21 @@ public class WorktimeServiceImpl extends ServiceImpl<WorktimeMapper, Worktime> i
 
     //添加排班时间
     @Override
-    public String addTime(String startTime, String stopTime) {
-        LocalDateTime start = LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN));
-        LocalDateTime stop = LocalDateTime.parse(stopTime, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN));
+    public String addTime(Date startTime, Date stopTime) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate1 = sdf.format(startTime);
+        String formattedDate2 = sdf.format(stopTime);
+        Date startTime1 = null;
+        Date stopTime2 = null;
+        try {
+            startTime1 = sdf.parse(formattedDate1);
+            stopTime2 = sdf.parse(formattedDate2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         Worktime worktime = new Worktime();
-        worktime.setStartTime(start);
-        worktime.setStopTime(stop);
+        worktime.setStartTime(startTime1);
+        worktime.setStopTime(stopTime2);
         worktimeMapper.insert(worktime);
         return "添加成功";
     }
