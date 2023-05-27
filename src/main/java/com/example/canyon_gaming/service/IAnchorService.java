@@ -38,5 +38,8 @@ public interface IAnchorService extends IService<Anchor> {
     //获取6个主播
     showAnchorDto getsix();
 
+    //虚拟币变现
+    String cash(Integer Aid,Double cash);
+
 
 }

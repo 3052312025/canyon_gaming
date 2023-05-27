@@ -31,7 +31,7 @@ public class WorktimeController {
 
     //添加排班时间
     @GetMapping("/add")
-    public Result addTime(LocalDateTime startTime,LocalDateTime stopTime){
+    public Result addTime(String startTime,String stopTime){
         return Result.success(worktimeService.addTime(startTime,stopTime));
     }
 

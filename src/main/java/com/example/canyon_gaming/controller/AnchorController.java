@@ -70,4 +70,10 @@ public class AnchorController {
     public Result g() {
         return Result.success(anchorService.getsix());
     }
+
+    //提现 传主播id还有现金数目
+    @GetMapping("/cash")
+    public Result cash(Integer Aid, Double cash){
+        return Result.success(anchorService.cash(Aid,cash));
+    }
 }

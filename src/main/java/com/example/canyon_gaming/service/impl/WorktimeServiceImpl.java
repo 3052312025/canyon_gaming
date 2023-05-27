@@ -1,5 +1,6 @@
 package com.example.canyon_gaming.service.impl;
 
+import cn.hutool.core.date.DatePattern;
 import com.example.canyon_gaming.common.Constants;
 import com.example.canyon_gaming.entity.Anchor;
 import com.example.canyon_gaming.entity.Worktime;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +37,12 @@ public class WorktimeServiceImpl extends ServiceImpl<WorktimeMapper, Worktime> i
 
     //添加排班时间
     @Override
-    public String addTime(LocalDateTime startTime, LocalDateTime stopTime) {
+    public String addTime(String startTime, String stopTime) {
+        LocalDateTime start = LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN));
+        LocalDateTime stop = LocalDateTime.parse(stopTime, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN));
         Worktime worktime = new Worktime();
-        worktime.setStartTime(startTime);
-        worktime.setStopTime(stopTime);
+        worktime.setStartTime(start);
+        worktime.setStopTime(stop);
         worktimeMapper.insert(worktime);
         return "添加成功";
     }
