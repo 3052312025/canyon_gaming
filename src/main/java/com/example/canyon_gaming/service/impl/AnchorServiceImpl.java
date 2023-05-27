@@ -1,6 +1,8 @@
 package com.example.canyon_gaming.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.canyon_gaming.common.Constants;
 import com.example.canyon_gaming.entity.Anchor;
 import com.example.canyon_gaming.entity.User;
@@ -69,7 +71,8 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
     //主播个人信息维护
     @Override
     public String modify(Anchor anchor) {
-        Anchor anchor1 = getById(anchor.getId());
+        Anchor anchor1 = anchorMapper.selectById(anchor.getId());
+        System.out.println(anchor1+"WSssssssssssssss");
         if (anchor1 == null) {
             throw new ServiceException(Constants.CODE_600.getCode(), "操作失败");
         }
@@ -110,13 +113,24 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
     @Override
     public Anchor mine(String username) {
         QueryWrapper<Anchor> anchorQueryWrapper = new QueryWrapper<>();
-        anchorQueryWrapper.eq("username", username)
-                .select(Anchor.class, anchorInfo -> !anchorInfo.getColumn().equals("password"));
+        anchorQueryWrapper.eq("username", username);
         Anchor anchor = getOne(anchorQueryWrapper);
         if (anchor == null) {
             throw new ServiceException(Constants.CODE_600.getCode(), "该用户不存在!");
         }
         return anchor;
+    }
+
+    //获取全部主播信息
+    @Override
+    public IPage<Anchor> selectByPage(Integer currentPage, Integer pageSize) {
+        QueryWrapper<Anchor> pageWrapper = new QueryWrapper<>();
+        //第一个参数为查询第几页,第二个参数为每页多少条记录
+        Page<Anchor> page = new Page<>(currentPage, pageSize);
+        IPage<Anchor> anchorIPage = anchorMapper.selectPage(page, pageWrapper);
+        //sk
+        anchorIPage.setTotal(anchorIPage.getTotal());
+        return anchorIPage;
     }
 
     //查询6个最热门主播的热度值,粉丝数，用户名
@@ -136,7 +150,7 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
 
     @Override
     public showAnchorDto getsix() {
-        return new showAnchorDto(anchorMapper.getSixName(),anchorMapper.getSixPopularity(),anchorMapper.getSixFans());
+        return new showAnchorDto(anchorMapper.getSixName(), anchorMapper.getSixPopularity(), anchorMapper.getSixFans());
     }
 
 

@@ -46,6 +46,12 @@ public class AnchorController {
         return Result.success(anchorService.modify(anchor));
     }
 
+    //分页展示全部主播信息
+    @GetMapping("/showAllAnchor")
+    public Result showAllAnchor(@RequestParam Integer currentPage, @RequestParam Integer pageSize) {
+        return Result.success(anchorService.selectByPage(currentPage, pageSize));
+    }
+
     //查询6个热门主播的热度值
     @GetMapping("/getSixPopularity")
     public Result getSixPopularity() {
@@ -61,7 +67,7 @@ public class AnchorController {
 
     //获取6个主播信息
     @GetMapping("/getsix")
-    public Result g(){
+    public Result g() {
         return Result.success(anchorService.getsix());
     }
 }
