@@ -64,10 +64,9 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
         if (imgurl != null) {
             liveroom.setImgurl(imgurl);
         }
-        liveroomMapper.updateById(liveroom);
-
-//        主播直播次数加一
+        //        主播直播次数加一
         anchor.setLiveNum(anchor.getLiveNum() + 1);
+        liveroomMapper.updateById(liveroom);
         return "成功开播！";
     }
 

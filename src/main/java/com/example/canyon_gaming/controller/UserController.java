@@ -79,8 +79,6 @@ public class UserController {
         return Result.success(userService.refuse(applyUser));
     }
 
-
-
     //测试
     @GetMapping("test")
     public Result test() {
