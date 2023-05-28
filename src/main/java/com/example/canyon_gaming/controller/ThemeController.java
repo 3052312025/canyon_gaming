@@ -43,22 +43,14 @@ public class ThemeController {
 
     //显示主题
     @GetMapping("/showTheme")
-    public List<Theme> showTheme() {
-        return themeService.showTheme();
-    }
+    public Result showTheme() {
+        return Result.success(themeService.showTheme());
 
-    @GetMapping("/test")
-    public String test(@RequestParam Integer id) {
-        if (id == 1) {
-            return "sss";
-        } else {
-            return "sddfdsf";
-        }
     }
 
     //主题与热度
     @GetMapping("/getTheme")
-    public Result get(){
+    public Result get() {
         return Result.success(themeService.show());
     }
 

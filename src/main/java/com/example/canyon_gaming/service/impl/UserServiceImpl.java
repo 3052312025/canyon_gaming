@@ -129,16 +129,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new ServiceException(Constants.CODE_600.getCode(), "操作失败!");
         }
         try {
+            QueryWrapper<Follow> followQueryWrapper = new QueryWrapper<>();
+            followQueryWrapper.eq("uid", id);
+            followMapper.delete(followQueryWrapper);
             QueryWrapper<Anchor> anchorQueryWrapper = new QueryWrapper<>();
             anchorQueryWrapper.eq("uid", id);
             Anchor anchor = anchorMapper.selectOne(anchorQueryWrapper);
             if (anchor != null) {
-                QueryWrapper<Follow> followQueryWrapper = new QueryWrapper<>();
-                followQueryWrapper.eq("uid", id).eq("aid", anchor.getId());
                 QueryWrapper<Liveroom> liveroomQueryWrapper = new QueryWrapper<>();
                 liveroomQueryWrapper.eq("roomid", anchor.getRoomId());
                 anchorMapper.delete(anchorQueryWrapper);
-                followMapper.delete(followQueryWrapper);
                 liveroomMapper.delete(liveroomQueryWrapper);
             }
         } catch (Exception e) {
@@ -183,10 +183,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         QueryWrapper<Anchor> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("uid", user1.getId());
         Anchor anchor = anchorMapper.selectOne(queryWrapper);
-        int anchorId = anchor.getId();
-        BeanUtils.copyProperties(user, anchor);
-        anchor.setId(anchorId);
-        anchorMapper.updateById(anchor);
+        if (anchor != null) {
+            int anchorId = anchor.getId();
+            BeanUtils.copyProperties(user, anchor);
+            anchor.setId(anchorId);
+            anchorMapper.updateById(anchor);
+        }
         updateById(user);
         return "修改成功!";
     }
