@@ -43,8 +43,8 @@ public class ThemeController {
 
     //显示主题
     @GetMapping("/showTheme")
-    public List<Theme> showTheme() {
-        return themeService.showTheme();
+    public Result showTheme() {
+        return Result.success(themeService.showTheme());
     }
 
     @GetMapping("/test")
