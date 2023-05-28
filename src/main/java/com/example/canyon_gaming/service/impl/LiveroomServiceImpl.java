@@ -8,6 +8,7 @@ import com.example.canyon_gaming.entity.Liveroom;
 import com.example.canyon_gaming.entity.Theme;
 import com.example.canyon_gaming.exception.ServiceException;
 import com.example.canyon_gaming.mapper.AnchorMapper;
+import com.example.canyon_gaming.mapper.FollowMapper;
 import com.example.canyon_gaming.mapper.LiveroomMapper;
 import com.example.canyon_gaming.mapper.ThemeMapper;
 import com.example.canyon_gaming.service.ILiveroomService;
@@ -43,6 +44,8 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
 
     @Value("${live-room.open-live.flv-url}")
     String flvUrl;
+    @Resource
+    FollowMapper followMapper;
 
     //开播方法
     @Override
@@ -64,10 +67,9 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
         if (imgurl != null) {
             liveroom.setImgurl(imgurl);
         }
-        liveroomMapper.updateById(liveroom);
-
-//        主播直播次数加一
+        //        主播直播次数加一
         anchor.setLiveNum(anchor.getLiveNum() + 1);
+        liveroomMapper.updateById(liveroom);
         return "成功开播！";
     }
 
@@ -91,7 +93,7 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
 
     //直播间点击方法
     @Override
-    public LiveroomDto touch(String roomId) {
+    public LiveroomDto touch(String roomId,Integer uid) {
         //获取直播间
         Liveroom liveroom = liveroomMapper.getByRoomID(roomId);
         //获取主播
@@ -108,9 +110,16 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
         }
         //生成直播间url
         String liveRoomUrl =flvUrl + "/" + "liveroom_" + anchor.getRoomId()+".flv";
-
+        //是否关注
+        Boolean gz = false;
+        List<Integer> list = followMapper.getByUid(uid);
+        for(int i =0;i<list.size();i++){
+            if(anchor.getId()==list.get(i)){
+                gz = true;
+            }
+        }
         //返回封装数据
-        LiveroomDto liveroomDto = new LiveroomDto(anchor.getUsername(), anchor.getFans(), anchor.getPopularity(), liveroom.getDegreeofeat(), liveroom.getTheme(), liveroom.getRoomname(), "", anchor.getAvatarUrl(), 0, liveroom.getRoomid(), liveRoomUrl,anchor.getAvatarUrl());
+        LiveroomDto liveroomDto = new LiveroomDto(anchor.getUsername(), anchor.getFans(), anchor.getPopularity(), liveroom.getDegreeofeat(), liveroom.getTheme(), liveroom.getRoomname(), "", anchor.getAvatarUrl(), 0, liveroom.getRoomid(), liveRoomUrl,anchor.getAvatarUrl(),anchor.getId(),gz);
         return liveroomDto;
     }
 

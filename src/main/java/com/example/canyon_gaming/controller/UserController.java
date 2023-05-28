@@ -54,7 +54,10 @@ public class UserController {
     public Result showAllUser(@RequestParam Integer currentPage, @RequestParam Integer pageSize) {
         return Result.success(userService.selectByPage(currentPage, pageSize));
     }
-
+    @GetMapping("/show")
+    public Result show() {
+        return Result.success(userService.show());
+    }
     //用户信息修改
     @PostMapping("/modifyUser")
     public Result modify(@RequestBody User user) {
@@ -78,8 +81,6 @@ public class UserController {
     public Result refuse(@RequestBody User applyUser) {
         return Result.success(userService.refuse(applyUser));
     }
-
-
 
     //测试
     @GetMapping("test")

@@ -6,5 +6,9 @@
     <sql id="Base_Column_List">
         id, uid, aid
     </sql>
+    <select id="getByUid" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select aid from follow where uid = #{uid}
+    </select>
+
 
 </mapper>
