@@ -38,8 +38,8 @@ public class LiveroomController {
 
     //直播间点击方法
     @GetMapping("/touch")
-    public Result touch(String roomId){
-        return Result.success(liveroomService.touch(roomId));
+    public Result touch(String roomId,Integer uid){
+        return Result.success(liveroomService.touch(roomId,uid));
     }
 
     //直播间展示方法
