@@ -26,7 +26,7 @@ public interface ILiveroomService extends IService<Liveroom> {
     String over(Integer id);
 
     //直播间点击方法
-    LiveroomDto touch(String roomId);
+    LiveroomDto touch(String roomId,Integer uid);
 
     //主页显示直播间
     List<LiveroomDto> show(Integer Page, Integer pageSize, String theme);
