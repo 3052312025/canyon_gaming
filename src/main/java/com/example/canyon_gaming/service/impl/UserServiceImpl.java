@@ -183,10 +183,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         QueryWrapper<Anchor> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("uid", user1.getId());
         Anchor anchor = anchorMapper.selectOne(queryWrapper);
-        int anchorId = anchor.getId();
-        BeanUtils.copyProperties(user, anchor);
-        anchor.setId(anchorId);
-        anchorMapper.updateById(anchor);
+        if (anchor!=null){
+            int anchorId = anchor.getId();
+            BeanUtils.copyProperties(user, anchor);
+            anchor.setId(anchorId);
+            anchorMapper.updateById(anchor);
+        }
         updateById(user);
         return "修改成功!";
     }
