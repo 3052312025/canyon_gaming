@@ -5,9 +5,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.canyon_gaming.common.Constants;
 import com.example.canyon_gaming.entity.Anchor;
+import com.example.canyon_gaming.entity.Follow;
+import com.example.canyon_gaming.entity.Liveroom;
 import com.example.canyon_gaming.entity.User;
 import com.example.canyon_gaming.exception.ServiceException;
 import com.example.canyon_gaming.mapper.AnchorMapper;
+import com.example.canyon_gaming.mapper.FollowMapper;
+import com.example.canyon_gaming.mapper.LiveroomMapper;
 import com.example.canyon_gaming.mapper.UserMapper;
 import com.example.canyon_gaming.service.IAnchorService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -20,6 +24,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.lang.model.element.Element;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,6 +52,12 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
     @Autowired
     IUserService iUserService;
 
+    @Resource
+    FollowMapper followMapper;
+
+    @Resource
+    LiveroomMapper liveroomMapper;
+
     //主播登录
     @Override
     public AnchorDto login(Map<String, Object> loginMap) {
@@ -72,7 +83,6 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
     @Override
     public String modify(Anchor anchor) {
         Anchor anchor1 = anchorMapper.selectById(anchor.getId());
-        System.out.println(anchor1 + "WSssssssssssssss");
         if (anchor1 == null) {
             throw new ServiceException(Constants.CODE_600.getCode(), "操作失败");
         }
@@ -101,9 +111,11 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
             throw new ServiceException(Constants.CODE_600.getCode(), "主播邮箱已存在");
         }
         User user = userMapper.selectById(anchor.getUid());
-        BeanUtils.copyProperties(anchor, user);
-        user.setId(anchor.getUid());
-        iUserService.modify(user);
+        if (user != null) {
+            BeanUtils.copyProperties(anchor, user);
+            user.setId(anchor.getUid());
+            iUserService.modify(user);
+        }
         updateById(anchor);
         return "修改成功";
     }
@@ -139,10 +151,16 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
         User user = userMapper.selectById(uid);
         if (user != null) {
             user.setLevel(1);
-            iUserService.deleteById(uid);
-            userMapper.insert(user);
-            user.setId(uid);
-            return "删除成功主播成功!";
+            userMapper.updateById(user);
+            QueryWrapper<Anchor> anchorQueryWrapper = new QueryWrapper<>();
+            anchorQueryWrapper.eq("uid", uid);
+            Anchor anchor = getOne(anchorQueryWrapper);
+            if (anchor != null) {
+                liveroomMapper.delete(new QueryWrapper<Liveroom>().eq("roomid", anchor.getRoomId()));
+                followMapper.delete(new QueryWrapper<Follow>().eq("aid", anchor.getId()));
+                anchorMapper.delete(anchorQueryWrapper);
+                return "刪除主播成功!";
+            }
         }
         throw new ServiceException(Constants.CODE_600.getCode(), "数据错误!");
     }
@@ -175,11 +193,11 @@ public class AnchorServiceImpl extends ServiceImpl<AnchorMapper, Anchor> impleme
         //查询虚拟币
         Double virtualUrrency = anchor.getVirtualUrrency();
         //判断提现金额是否合法
-        if(cash<0&&(virtualUrrency-2*cash)<0){
+        if (cash < 0 && (virtualUrrency - 2 * cash) < 0) {
             throw new ServiceException(Constants.CODE_600.getCode(), "提现超额!");
         }
         //修改数据库
-        anchor.setVirtualUrrency(virtualUrrency-2*cash);
+        anchor.setVirtualUrrency(virtualUrrency - 2 * cash);
         anchorMapper.updateById(anchor);
         return "提现成功!";
     }
