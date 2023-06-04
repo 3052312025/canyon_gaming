@@ -29,6 +29,7 @@ public class AnchorController {
     //主播登录
     @PostMapping("/login")
     public Result login(@RequestBody Map<String, Object> loginMap) {
+
         return Result.success(anchorService.login(loginMap));
     }
 
