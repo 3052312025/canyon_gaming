@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class LiveroomDto {
     //用户名
     private String username;
@@ -59,20 +60,4 @@ public class LiveroomDto {
         this.userUrl = userUrl;
     }
 
-//    public LiveroomDto(String username, Integer fans, Integer popularity, Integer degreeofeat, String theme, String roomname, String state, String imgurl, int pagenum, String roomId, String liveRoomUrl, String userUrl, Integer aid, boolean isgz) {
-//        this.username = username;
-//        this.fans = fans;
-//        this.popularity = popularity;
-//        this.degreeofeat = degreeofeat;
-//        this.theme = theme;
-//        this.roomname = roomname;
-//        this.state = state;
-//        this.imgurl = imgurl;
-//        Pagenum = pagenum;
-//        RoomId = roomId;
-//        this.liveRoomUrl = liveRoomUrl;
-//        this.userUrl = userUrl;
-//        this.aid = aid;
-//        this.isgz = isgz;
-//    }
 }
