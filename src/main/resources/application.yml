@@ -2,10 +2,8 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3308/gamelive?useUnicode=true&useSSL=false&characterEncoding=utf8
-    url: jdbc:mysql://localhost:3306/gamelive?useUnicode=true&useSSL=false&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/gamelive?useUnicode=true&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
     username: root
-#    password: 354172
     password: 123456
 
 mybatis-plus:
@@ -23,14 +21,13 @@ server:
 live-room:
   open-live:
     #直播服务器推流地址
-    server-address: rtmp://192.168.159.131:1935/live
-    flv-url: http://192.168.159.131:8080/live
+    server-address: rtmp://192.168.159.132:1935/live
+    flv-url: http://192.168.159.132:8080/live
 
 #HealMe测试区
 files:
-  upload:
-    path: D:\Desktop\canyon_images
-
+  Upload:
+    path: D:\MyCode\Data\canyon_images
 
 
 

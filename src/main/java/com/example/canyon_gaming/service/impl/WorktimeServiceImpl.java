@@ -72,6 +72,8 @@ public class WorktimeServiceImpl extends ServiceImpl<WorktimeMapper, Worktime> i
     //主播申请排班
     @Override
     public String applyTime(Integer tid, Integer uid) {
+        System.out.println("tid = "+tid);
+        System.out.println("uid = "+uid);
         //获取主播id
         Anchor anchor = anchorMapper.getByUid(uid);
         Worktime worktime = worktimeMapper.selectById(tid);
@@ -218,7 +220,7 @@ public class WorktimeServiceImpl extends ServiceImpl<WorktimeMapper, Worktime> i
     @Override
     public String refuseReApply(Integer id) {
         Worktime worktime = worktimeMapper.selectById(id);
-        worktime.setState(0);
+        worktime.setState(-1);
         worktimeMapper.updateById(worktime);
         return "已拒绝";
     }

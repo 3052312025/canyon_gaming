@@ -1,26 +1,92 @@
 package com.example.canyon_gaming;
 
-import com.example.canyon_gaming.entity.Theme;
-import com.example.canyon_gaming.mapper.ThemeMapper;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.canyon_gaming.controller.UserController;
+import com.example.canyon_gaming.entity.User;
+import com.example.canyon_gaming.service.impl.UserServiceImpl;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootTest
-@RequestMapping("/test")
-class CanyonGamingApplicationTests {
+@RunWith(SpringRunner.class) //运行器
+public class CanyonGamingApplicationTests {
 
+    @Resource
+    private UserController userController;
+    @Resource
+    private UserServiceImpl userService;
 
     @Test
-    void contextLoads() {
-        Pattern pUsername = Pattern.compile("^[a-zA-Z0-9_-||\u4e00-\u9fa5]{3,16}$");
-        Matcher pu = pUsername.matcher("斤斤计较");
-        System.out.println(pu.matches());
+    public void loginTest1(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("username","zkl");
+        map.put("password","1234");
+        userController.login(map);
+    }
+
+    @Test
+    public void loginTest2(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("username","");
+        map.put("password","");
+        userController.login(map);
+    }
+
+    @Test
+    public void loginTest3(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("username","zkl");
+        map.put("password","");
+        userController.login(map);
+    }
+
+    @Test
+    public void registerTest1(){
+        User user = new User();
+        user.setUsername("zkl");
+        user.setPassword("1234");
+        user.setPhone("17820487661");
+        userService.register(user);
+    }
+
+    @Test
+    public void registerTest2(){
+        User user = new User();
+        user.setUsername("zengkangle");
+        user.setPassword("1234");
+        user.setPhone("17820487661");
+        userService.register(user);
+    }
+
+    @Test
+    public void registerTest3(){
+        User user = new User();
+        user.setUsername("");
+        user.setPassword("1234");
+        user.setPhone("17820487661");
+        userService.register(user);
+    }
+
+    @Test
+    public void registerTest4(){
+        User user = new User();
+        user.setUsername("zengkang");
+        user.setPassword("");
+        user.setPhone("17820487661");
+        userService.register(user);
+    }
+
+    @Test
+    public void registerTest5(){
+        User user = new User();
+        user.setUsername("zengkang");
+        user.setPassword("1234");
+        user.setPhone("110");
+        userService.register(user);
     }
 }

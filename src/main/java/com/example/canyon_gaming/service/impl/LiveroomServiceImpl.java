@@ -110,6 +110,7 @@ public class LiveroomServiceImpl extends ServiceImpl<LiveroomMapper, Liveroom> i
         }
         //生成直播间url
         String liveRoomUrl =flvUrl + "/" + "liveroom_" + anchor.getRoomId()+".flv";
+        System.out.println(liveRoomUrl);
         //是否关注
         Boolean gz = false;
         List<Integer> list = followMapper.getByUid(uid);
